@@ -1,0 +1,22 @@
+# Handle line endings automatically for text files
+* text=auto
+
+# Specific file types
+*.cs   text
+*.shader text
+*.txt  text
+*.json text
+*.xml  text
+*.yml  text
+*.yaml text
+*.md   text
+
+# Binary files
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.fbx  binary
+*.mp3  binary
+*.ogg  binary
+*.wav  binary
+*.prefab binary
