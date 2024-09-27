@@ -14,4 +14,9 @@ public static class Math
         float difference = second - first;//calculate the distance between the two values
         return first + (percentage * difference);//add the percentage required to the distance calculated and add it to the first value
     }
+
+    public static float PerlinNoise(float x, float y, float timerCount, float speed, float frequency, float amplitude)
+    {
+        return Mathf.PerlinNoise((x + timerCount * speed) * frequency, (y + timerCount * speed) * frequency) * amplitude;//The variable timerCount makes it so that the graph changes over time and the variable speed how fast does it
+    }
 }

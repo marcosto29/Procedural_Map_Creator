@@ -5,28 +5,37 @@ using Cinemachine;
 
 public class PerlinLine : MonoBehaviour
 {
-    [SerializeField] private LineRenderer myLineRenderer;
+    [SerializeField] private LineRenderer Line;
     [SerializeField] private int points;
     [SerializeField] private float amplitude;
     [SerializeField] private float frequency;
-    [SerializeField] private new GameObject camera;
+    [SerializeField] private float speed;
+    [SerializeField] private float jump;
+    [SerializeField] private Vector2 Limits;
+
+    private float timerCount;
     void Start()
     {
-        myLineRenderer = GetComponent<LineRenderer>();
+        Line = GetComponent<LineRenderer>();
     }
 
     void Draw()
     {
-        float xStart = -10;
-        float xFinish = 10;
+        timerCount += Time.deltaTime;
+        float startingPoint = Limits.x;
+        float finishingPoint = Limits.y;
+        float xoff = 0;
+        float yoff = 10;
 
-        myLineRenderer.positionCount = points;
-        for (int currentPoint = 0; currentPoint < points; currentPoint++)
+        Line.positionCount = points;
+        for (int i = 0; i < points; i++)
         {
-            float progress = (float)currentPoint / (points - 1);
-            float x = Mathf.Lerp(xStart, xFinish, progress);
-            float y = (Mathf.PerlinNoise(x * frequency, (float)0.1) * frequency) * amplitude;
-            myLineRenderer.SetPosition(currentPoint, new Vector3(x, y, 0));
+            float percentage = (float)i / (points - 1);
+            float x = Mathf.Lerp(startingPoint, finishingPoint, percentage);
+            float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude);//here tons of perlin noise can be calculated and added with different amplitudes and frequencies
+            Line.SetPosition(i, new Vector3(x, y, 0));
+            xoff += jump;
+            yoff += jump;
         }
     }
 
