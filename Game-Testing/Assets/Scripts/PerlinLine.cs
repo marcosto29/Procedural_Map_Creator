@@ -33,7 +33,10 @@ public class PerlinLine : MonoBehaviour
             float percentage = (float)i / (points - 1);
             float x = Mathf.Lerp(startingPoint, finishingPoint, percentage);
             float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude);//here tons of perlin noise can be calculated and added with different amplitudes and frequencies
-            Line.SetPosition(i, new Vector3(x, y, 0));
+            float y2 = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency*2, amplitude/2);
+            float y3 = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency*4, amplitude/4);
+            float y4 = y + y2 + y3;
+            Line.SetPosition(i, new Vector3(x, y4, 0));
             xoff += jump;
             yoff += jump;
         }
