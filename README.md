@@ -16,7 +16,7 @@ When using the algorithm on 1D the numbers chosen range between 1 and -1, it is 
 
 Some important terms used when creating a Perlin Noise algorithm are: _Octaves_, _Frecuency_ and _Amplitude_. The last two are used regularly when talking about: functions, waves, etc. the first term _Octave_ refers to an existing Noise layer on the whole Perlin Noise value.
 
-![Example of a Perlin Noise Graph in Unity](Game-Testing\Game-Testing\Assets\Photos)
+![Example of a Perlin Noise Graph in Unity](Game-Testing/Assets/Photos/PerlinNoise_3differentPerlin.PNG)
 
 
 
