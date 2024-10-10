@@ -32,8 +32,9 @@ About the _Frecency_ and _Amplitude_ they can give different and interesting res
 
 while this representations can be fascinating by themselves, they ca be fused to give even more complex Perlin Noise graphs, when doing this, it can be said that each one of those graphs are _Octaves_
 
-![Example of a Perlin Noise Graph in Unity](Game-Testing/Assets/Photos/PerlinNoise_3differentPerlin.PNG)
-
+<p align="center">
+  <img src="Game-Testing/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph"/>
+</p>
 On these graph, three diferent Octaves are being used.
 
 
