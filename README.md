@@ -4,7 +4,7 @@ This project is focus on the creation of maps dynamically with the use of the Pe
 
 ## Perlin Noise
 
-When using random algorithms, machines tend to take numbers far from each other, if it uses them for example to build a graph it will result on a illegible and chaotic figure. When talking about "Noise" is important to take in count that it is also a random algorithm but with a step. 
+When using random algorithms, machines tend to take numbers far from each other, if it uses them for example to build a graph it will result on a illegible and chaotic figure. When talking about "Noise" is important to take in count that it is also a random algorithm but with a step.
 
 When talking more specifically about Perlin Noise, we are talking about an algorithm that when it takes a number at any time "t", it is related to its brother "number t + 1" and "number t - 1", resulting on a smoother graph, in a way, Perlin Noise can be considered a "Smooth Random Generator Algorithm".
 
@@ -33,8 +33,11 @@ About the _Frecency_ and _Amplitude_ they can give different and interesting res
 while this representations can be fascinating by themselves, they ca be fused to give even more complex Perlin Noise graphs, when doing this, it can be said that each one of those graphs are _Octaves_.
 
 <p align="center">
+  <img src="Game-Testing/Assets/Photos/RandomFunction.PNG" alt="Random Graph/>
   <img src="Game-Testing/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph"/>
 </p>
+
+A curiosity about these Perlin Noise Graphs is the fact that they can be considered fractals, since the same pattern can be found over and over again regardless of how big, small or how many reference points are taken in the samples
 
 
 
