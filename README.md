@@ -33,8 +33,8 @@ About the _Frecency_ and _Amplitude_ they can give different and interesting res
 while this representations can be fascinating by themselves, they ca be fused to give even more complex Perlin Noise graphs, when doing this, it can be said that each one of those graphs are _Octaves_.
 
 <p align="center">
-  <img src="Game-Testing/Assets/Photos/RandomFunction.PNG" alt="Random Graph/>
-  <img src="Game-Testing/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph"/>
+  <img src="Game-Testing/Assets/Photos/RandomFunction.PNG" alt="Random Graph" width="50%"/>
+  <img src="Game-Testing/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph" width="50%"/>
 </p>
 
 A curiosity about these Perlin Noise Graphs is the fact that they can be considered fractals, since the same pattern can be found over and over again regardless of how big, small or how many reference points are taken in the samples
