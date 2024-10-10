@@ -34,8 +34,9 @@ while this representations can be fascinating by themselves, they ca be fused to
 
 <p align="center">
   <img src="Game-Testing/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph"/>
+  <figcaption>On these graph, three diferent Octaves are being used.</figcaption>
 </p>
-On these graph, three diferent Octaves are being used.
+
 
 
 
