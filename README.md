@@ -30,7 +30,7 @@ About the _Frecency_ and _Amplitude_ they can give different and interesting res
   <img src="Game-Testing/Assets/Photos/Line_100Points_2freq_1amp_0.1jump.PNG" alt="Frecuency value established to 2" width="30%" />
 </p>
 
-while this representations can be fascinating by themselves, they ca be fused to give even more complex Perlin Noise graphs, when doing this, it can be said that each one of those graphs are _Octaves_. On these graph, three diferent Octaves are being used.
+while this representations can be fascinating by themselves, they ca be fused to give even more complex Perlin Noise graphs, when doing this, it can be said that each one of those graphs are _Octaves_.
 
 <p align="center">
   <img src="Game-Testing/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph"/>
