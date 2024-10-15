@@ -17,8 +17,11 @@ public class PlaneGenerator : MonoBehaviour
     [SerializeField] List<Vector3> vertices;
     [SerializeField] List<int> triangles;
 
+    [SerializeField] PerlinFunction pFunc;
+
     private void Awake()
     {
+        pFunc = GetComponent<PerlinFunction>();
         mesh = new Mesh();//Create a new Mesh      
         meshFilter = GetComponent<MeshFilter>();//get the filter of the object to assigned it
         meshCollider = GetComponent<MeshCollider>();//get the collider of the object to assigned it
@@ -40,6 +43,10 @@ public class PlaneGenerator : MonoBehaviour
 
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
+
+        meshFilter.mesh = mesh;
+
+        pFunc.DDraw(meshFilter);
     }
 
     List<Vector3> CreateVertices()

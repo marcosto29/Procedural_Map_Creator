@@ -19,8 +19,8 @@ public class PerlinFunction : MonoBehaviour
     void Start()
     {
         //Line = GetComponent<LineRenderer>();
-        plane = GetComponent<MeshFilter>().mesh;//get the Mesh of a plane to manipulate its vertex
-        DDraw();
+        //plane = GetComponent<MeshFilter>().mesh;//get the Mesh of a plane to manipulate its vertex
+        //DDraw();
     }
 
     void Draw()//1D
@@ -46,9 +46,9 @@ public class PerlinFunction : MonoBehaviour
         }
     }
 
-    void DDraw()//2 and 3D
+    public void DDraw(MeshFilter plane)//2 and 3D
     {
-        vertex = plane.vertices;
+        vertex = plane.mesh.vertices;
         float[] values = new float[vertex.Length];
 
         timerCount += Time.deltaTime;
@@ -56,14 +56,13 @@ public class PerlinFunction : MonoBehaviour
         float yoff = 10;
         int count = 0;
 
-        for (int i = 0; i < Mathf.Sqrt(vertex.Length); i++)
+        for (int i = 0; i < Mathf.Sqrt(vertex.Length); i++)//this works on square vertex, not rectangles, gotta fix it
         {
             for (int j = 0; j < Mathf.Sqrt(vertex.Length); j++)
             {
                 float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude*2);
 
                 values[count] = y;
-                print(y + " " + count + " " + values[count]);
                 xoff += jump;
                 count++;
             }
@@ -77,7 +76,6 @@ public class PerlinFunction : MonoBehaviour
         {
             for (int j = 0; j < Mathf.Sqrt(vertex.Length); j++)
             {
-                print(values[count] + " " + "example[" + i + "," + j + "]");
                 count++;
             }
         }
@@ -90,14 +88,12 @@ public class PerlinFunction : MonoBehaviour
             vertex[i].y = values[i];
         }
 
-        plane.vertices = vertex;
-
-
+        plane.mesh.vertices = vertex;
     }
 
     void Update()
     {
-        DDraw();
+        //DDraw();
         //Draw();
     }
 }
