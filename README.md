@@ -8,6 +8,11 @@ When using random algorithms, machines tend to take numbers far from each other,
 
 When talking more specifically about Perlin Noise, we are talking about an algorithm that when it takes a number at any time "t", it is related to its brother "number t + 1" and "number t - 1", resulting on a smoother graph, in a way, Perlin Noise can be considered a "Smooth Random Generator Algorithm".
 
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/RandomFunction.PNG" alt="Random Graph" width="50%"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph" width="50%"/>
+</p>
+
 To put more context on this topic, Ken Perlin, the original creator of this algorithm, created on the 1980's to help on the creation of textures of 3D objects on Tron, the idea was to create a "Procedural Texture Creator" that would take seconds to create something that artists would need days.
 
 This can be helpful on different enviroments such as map creators, which can use the calculated values to establish mountain, valleys, etc. more naturally with less steep slopes. Now a days games like Mincraft use similar algorithms to create not only the terrain but the different biomes.
@@ -33,9 +38,10 @@ About the _Frecency_ and _Amplitude_ they can give different and interesting res
 while this representations can be fascinating by themselves, they ca be fused to give even more complex Perlin Noise graphs, when doing this, it can be said that each one of those graphs are _Octaves_.
 
 <p align="center">
-  <img src="Procedural-Map-Creator/Assets/Photos/RandomFunction.PNG" alt="Random Graph" width="50%"/>
-  <img src="Procedural-Map-Creator/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph" width="50%"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/PerlinNoise_Sin.PNG" alt="Perlin Noise mixed with other functions" />
 </p>
+
+This _Octaves_ can be used, not only over other Perlin Noise but in other functions, in this example, Perlin Noise is being applide to a Sine one.
 
 A curiosity about these Perlin Noise Graphs is the fact that they can be considered fractals, since the same pattern can be found over and over again regardless of how big, small or how many reference points are taken in the samples
 
