@@ -9,9 +9,10 @@ When using random algorithms, machines tend to take numbers far from each other,
 When talking more specifically about Perlin Noise, we are talking about an algorithm that when it takes a number at any time "t", it is related to its brother "number t + 1" and "number t - 1", resulting on a smoother graph, in a way, Perlin Noise can be considered a "Smooth Random Generator Algorithm".
 
 <p align="center">
-  <img src="Procedural-Map-Creator/Assets/Photos/RandomFunction.PNG" alt="Random Graph" width="50%"/>
-  <img src="Procedural-Map-Creator/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph" width="50%"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/RandomFunction.PNG" alt="Random Graph" width="45%" style="display:inline-block; margin-right: 10px;"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/PerlinNoise_3differentPerlin.PNG" alt="Perlin Noise Graph" width="45%" style="display:inline-block;"/>
 </p>
+
 
 To put more context on this topic, Ken Perlin, the original creator of this algorithm, created on the 1980's to help on the creation of textures of 3D objects on Tron, the idea was to create a "Procedural Texture Creator" that would take seconds to create something that artists would need days.
 
