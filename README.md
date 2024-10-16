@@ -44,11 +44,12 @@ while this representations can be fascinating by themselves, they ca be fused to
 
 This _Octaves_ can be used, not only over other Perlin Noise but in other functions, in this example, Perlin Noise is being applide to a Sine one.
 
-A curiosity about these Perlin Noise Graphs is the fact that they can be considered fractals, since the same pattern can be found over and over again regardless of how big, small or how many reference points are taken in the samples
+A curiosity about these Perlin Noise Graphs is the fact that they can be considered fractals, since the same pattern can be found over and over again regardless of how big, small or how many reference points are taken in the samples.
 
+### 2 Dimensions
 
+Before talking about Perlin Noise on 2 Dimensions there are some issues that need to be work on, such as the terrain.
 
+Although Unity is a great engine to work around geometry, there are some limitations that can be fixed manually, one is the default plane, the main problem with this plane is the fact that it cannot be modify beyond some veriables such as the scale, position and rotation.
 
-
-
-
+When handling this type of problems on geometry, variable such as vertices, are one of the most important thing to take in count
