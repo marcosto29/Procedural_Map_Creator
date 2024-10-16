@@ -46,7 +46,7 @@ public class PlaneGenerator : MonoBehaviour
 
         meshFilter.mesh = mesh;
 
-        pFunc.DDraw(meshFilter);
+        pFunc.DDraw(meshFilter, definition);
     }
 
     List<Vector3> CreateVertices()

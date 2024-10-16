@@ -46,7 +46,7 @@ public class PerlinFunction : MonoBehaviour
         }
     }
 
-    public void DDraw(MeshFilter plane)//2 and 3D
+    public void DDraw(MeshFilter plane, Vector2 def)//2 and 3D
     {
         vertex = plane.mesh.vertices;
         float[] values = new float[vertex.Length];
@@ -56,9 +56,9 @@ public class PerlinFunction : MonoBehaviour
         float yoff = 10;
         int count = 0;
 
-        for (int i = 0; i < Mathf.Sqrt(vertex.Length); i++)//this works on square vertex, not rectangles, gotta fix it
+        for (int i = 0; i < def.y; i++)//need to find a better way to do this without the perlinFunction and PlaneGenerator being this dependent, a possible mamager
         {
-            for (int j = 0; j < Mathf.Sqrt(vertex.Length); j++)
+            for (int j = 0; j < def.x; j++)
             {
                 float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude*2);
 
@@ -69,19 +69,6 @@ public class PerlinFunction : MonoBehaviour
             xoff = 0;
             yoff += jump;
         }
-
-        count = 0;
-
-        for (int i = 0; i < Mathf.Sqrt(vertex.Length); i++)
-        {
-            for (int j = 0; j < Mathf.Sqrt(vertex.Length); j++)
-            {
-                count++;
-            }
-        }
-
-
-
 
         for(int i = 0; i < vertex.Length; i++)
         {
@@ -94,6 +81,6 @@ public class PerlinFunction : MonoBehaviour
     void Update()
     {
         //DDraw();
-        //Draw();
+        Draw();
     }
 }
