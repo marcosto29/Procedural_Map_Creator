@@ -2,54 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaneGenerator : MonoBehaviour
+public static class PlaneGenerator
 {
-    //the components reached to create the plane
-    [SerializeField] Mesh mesh;
-    [SerializeField] MeshFilter meshFilter;
-    [SerializeField] MeshCollider meshCollider;
-
-    //the values needed to determine the size of the plane and how many vertices and triangles it has
-    [SerializeField] Vector2 size;
-    [SerializeField] Vector2 definition;//this definition value established how many vetices and triangls are created, will be used later
-
-    //the vertices and trianlges used to build the plane, use fo debugging purpose
-    [SerializeField] List<Vector3> vertices;
-    [SerializeField] List<int> triangles;
-
-    [SerializeField] PerlinFunction pFunc;
-
-    private void Awake()
-    {
-        pFunc = GetComponent<PerlinFunction>();
-        mesh = new Mesh();//Create a new Mesh      
-        meshFilter = GetComponent<MeshFilter>();//get the filter of the object to assigned it
-        meshCollider = GetComponent<MeshCollider>();//get the collider of the object to assigned it
-        meshCollider.sharedMesh = mesh;
-        meshFilter.mesh = mesh;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        vertices = CreateVertices();//for debugging purpose
-        triangles = CreateTriangles();
-
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
-
-        meshFilter.mesh = mesh;
-
-        pFunc.DDraw(meshFilter, definition);
-    }
-
-    List<Vector3> CreateVertices()
+    public static List<Vector3> CreateVertices(Vector2 definition, Vector2 size)//this function gotta be remade to try and approch it with the voroni diagram
     {
         List<Vector3> vert = new List<Vector3>();
         for(int i = 0; i <= definition.y; i++)
@@ -62,7 +17,7 @@ public class PlaneGenerator : MonoBehaviour
         return vert;
     }
 
-    List<int> CreateTriangles()
+    public static List<int> CreateTriangles(Vector2 definition)
     {
         List<int> trian = new List<int>();
 

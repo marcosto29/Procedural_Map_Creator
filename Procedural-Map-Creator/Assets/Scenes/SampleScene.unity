@@ -134,9 +134,8 @@ GameObject:
   - component: {fileID: 234074566}
   - component: {fileID: 234074565}
   - component: {fileID: 234074564}
-  - component: {fileID: 234074563}
-  - component: {fileID: 234074567}
   - component: {fileID: 234074568}
+  - component: {fileID: 234074569}
   m_Layer: 0
   m_Name: ProceduralPlane
   m_TagString: Untagged
@@ -144,26 +143,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &234074563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 234074562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e33585d0f38c834191654c52d01d768, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mesh: {fileID: 0}
-  meshFilter: {fileID: 0}
-  meshCollider: {fileID: 0}
-  size: {x: 200, y: 200}
-  definition: {x: 100, y: 100}
-  vertices: []
-  triangles: 
-  pFunc: {fileID: 0}
 --- !u!33 &234074564
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -222,34 +201,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234074562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 205}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &234074567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 234074562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64f5cc28b9a8aeb4288bc7c5f1aae5d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Line: {fileID: 0}
-  points: 0
-  amplitude: 1
-  frequency: 1
-  speed: 0
-  jump: 0.1
-  Limits: {x: 0, y: 0}
-  plane: {fileID: 0}
-  vertex: []
 --- !u!64 &234074568
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -264,6 +222,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &234074569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234074562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c0f7c3e6ea6cb4c808ca6f0752bbaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 20
+  frequency: 1
+  speed: 0
+  jump: 0.1
+  Limits: {x: 0, y: 0}
+  size: {x: 200, y: 200}
+  definition: {x: 30, y: 30}
+  vertices: []
+  triangles: 
 --- !u!1 &245810820
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +306,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 245810820}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 91.61923, z: -44.515182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -447,12 +426,110 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 497643591}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 91.61923, z: -44.515182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &685693062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 685693068}
+  - component: {fileID: 685693067}
+  - component: {fileID: 685693066}
+  - component: {fileID: 685693063}
+  m_Layer: 0
+  m_Name: ProceduralPlane (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &685693063
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685693062}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!33 &685693066
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685693062}
+  m_Mesh: {fileID: 0}
+--- !u!23 &685693067
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685693062}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!4 &685693068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685693062}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -205, y: 0, z: 205}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -560,7 +637,6 @@ GameObject:
   - component: {fileID: 919732171}
   - component: {fileID: 919732170}
   - component: {fileID: 919732169}
-  - component: {fileID: 919732168}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -568,27 +644,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &919732168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919732167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64f5cc28b9a8aeb4288bc7c5f1aae5d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Line: {fileID: 0}
-  points: 0
-  amplitude: 1
-  frequency: 1
-  speed: 0
-  jump: 0.3
-  Limits: {x: 0, y: 0}
-  plane: {fileID: 0}
-  vertex: []
 --- !u!64 &919732169
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -678,7 +733,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1633140729}
   - component: {fileID: 1633140728}
-  - component: {fileID: 1633140730}
   m_Layer: 0
   m_Name: LinerRender
   m_TagString: Untagged
@@ -798,27 +852,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1633140730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633140726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64f5cc28b9a8aeb4288bc7c5f1aae5d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Line: {fileID: 0}
-  points: 1000
-  amplitude: 1
-  frequency: 1
-  speed: 0
-  jump: 0.01
-  Limits: {x: -10, y: 10}
-  plane: {fileID: 0}
-  vertex: []
 --- !u!1 &1744702137
 GameObject:
   m_ObjectHideFlags: 3
@@ -876,7 +909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 91.61923, z: 5.786447}
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
@@ -886,7 +919,7 @@ MonoBehaviour:
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
-  m_CameraDistance: 10
+  m_CameraDistance: 50.30163
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
