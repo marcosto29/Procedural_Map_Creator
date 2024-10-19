@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,10 @@ public class PlaneManager : MonoBehaviour
     [SerializeField] Vector2 size;
     [SerializeField] Vector2 definition;//this definition value established how many vetices and triangls are created, will be used later
 
-    private delegate void Creator();
-    private event Creator planeCreate;
+    private Action planeCreate;
+
+    //private delegate void Creator(); //delegate with more steps
+    //private event Creator planeCreate;
 
     [SerializeField]
     public Vector2 sizeProp//when changing the size redo the plane
@@ -25,7 +28,7 @@ public class PlaneManager : MonoBehaviour
         set
         {
             size = value;
-
+            
             planeCreate();
         }
     }
@@ -36,7 +39,7 @@ public class PlaneManager : MonoBehaviour
         get { return definition; }
         set
         {
-            definition = value;
+            definition = new Vector2((int)value.x, (int)value.y);
 
             planeCreate();
         }
@@ -61,7 +64,22 @@ public class PlaneManager : MonoBehaviour
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
 
-        planeCreate += CreatePlane;
+        //planeCreate = CreatePlane; // delegate with more steps
+
+        planeCreate += () => { //delegate with lambda
+
+            mesh.Clear();
+
+            Vector2 intDef = new Vector2((int)definition.x, (int)definition.y);
+
+            vertices = PlaneGenerator.CreateVertices(intDef, size);//extra step for better visualitazion on inspector
+            triangles = PlaneGenerator.CreateTriangles(intDef);
+
+            mesh.vertices = vertices.ToArray();
+            mesh.triangles = triangles.ToArray();
+
+            mesh.RecalculateBounds();
+        };
 
         isInitialized = true;
 
@@ -73,14 +91,14 @@ public class PlaneManager : MonoBehaviour
 
     }
 
-    private void CreatePlane()
-    {
-        vertices = PlaneGenerator.CreateVertices(definition, size);//extra step for better visualitazion on inspector
-        triangles = PlaneGenerator.CreateTriangles(definition);
+    //private void CreatePlane()
+    //{
+    //    vertices = PlaneGenerator.CreateVertices(definition, size);//extra step for better visualitazion on inspector
+    //    triangles = PlaneGenerator.CreateTriangles(definition);
 
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
-    }
+    //    mesh.vertices = vertices.ToArray();
+    //    mesh.triangles = triangles.ToArray();
+    //}
 
     // Update is called once per frame
     void Update()
@@ -93,7 +111,7 @@ public class PlaneManager : MonoBehaviour
     {
         if (isInitialized)
         {
-            definitionProp = definition;
+            //definitionProp = definition;
             sizeProp = size;
         }
     }
