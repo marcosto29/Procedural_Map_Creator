@@ -15,6 +15,9 @@ public class PlaneManager : MonoBehaviour
     [SerializeField] Vector2 size;
     [SerializeField] Vector2 definition;//this definition value established how many vetices and triangls are created, will be used later
 
+    private delegate void Creator();
+    private event Creator planeCreate;
+
     [SerializeField]
     public Vector2 sizeProp//when changing the size redo the plane
     {
@@ -23,7 +26,7 @@ public class PlaneManager : MonoBehaviour
         {
             size = value;
 
-            CreatePlane();
+            planeCreate();
         }
     }
 
@@ -35,7 +38,7 @@ public class PlaneManager : MonoBehaviour
         {
             definition = value;
 
-            CreatePlane();
+            planeCreate();
         }
     }
 
@@ -58,9 +61,11 @@ public class PlaneManager : MonoBehaviour
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
 
-        CreatePlane();
+        planeCreate += CreatePlane;
 
         isInitialized = true;
+
+        planeCreate();
     }
 
     private void Start()
