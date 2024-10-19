@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class PlaneGenerator
 {
-    public static List<Vector3> CreateVertices(Vector2 definition, Vector2 size)//this function gotta be remade to try and approch it with the voroni diagram
+    public static List<Vector3> CreateVertices(Vector2 definition, Vector2 size)//this function gotta be remade to try and approch it with the voroni diagram/delaunay triangulation
     {
         List<Vector3> vert = new List<Vector3>();
         for(int i = 0; i <= definition.y; i++)
@@ -25,7 +25,7 @@ public static class PlaneGenerator
         {
             for(int j = 0; j < definition.x; j++)
             {
-                int index = i * ((int)definition.x + 1) + j;//index position, for some reason (size.x + 1) has to be between parenthesis or it literally fucking explodes, im stupid 2 hours later i just learned operation order
+                int index = i * ((int)definition.x + 1) + j;//index position
 
                 // First triangle (top-left, bottom-left, bottom-right) in thise order (counter-clockwise) the plane renders inside out
                 trian.Add(index);
