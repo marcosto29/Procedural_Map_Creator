@@ -52,4 +52,32 @@ Before talking about Perlin Noise on 2 Dimensions there are some issues that nee
 
 Although Unity is a great engine to work around geometry, there are some limitations that can be fixed manually, one is the default plane, the main problem with this plane is the fact that it cannot be modify beyond some veriables such as the scale, position and rotation.
 
-When handling this type of problems on geometry, variable such as vertices, are one of the most important thing to take in count
+When handling this type of problems on geometry, variable such as vertices, are one of the most important thing to take in count, so in this type of problems creating your own plane is the optimal option.
+
+## Creating a plane
+
+As said before, when creating a plane, one of the most important things are the vertices, to understand better how a plane works in unity is important to know its design.
+
+A plane is nothing more than a group of vertices joined by lines to form triangles, therefore in order to create one, it is necessary to establish how many vertices are wanted and its respective (plane local) positions. Once thay all are fixed the next step is to find a way to join each one of them with its respective neighbors in a certain order so that the plane can be render and behave correctly.
+
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/Vertices_and_Triangles_blue.PNG" alt="clockwise order 1" width="45%" style="display:inline-block; margin-right: 10px;"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/Vertices_and_Triangles_red.PNG" alt="clockwise order 2" width="45%" style="display:inline-block;"/>
+</p>
+
+when creating a triangles from a vertice it is important to choose a clockwise order as explained before, with this order the triangle will render and behave correctly.
+
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/Vertices_and_Triangles..PNG" alt="Plane of 2 triangles"/>
+</p>
+
+This example shows a very simple plane created by 2 triangles, if both (clockwise and counter clockwise) are made when creating the triangles a double-side render plane will be created, a better yet more expensive solution.
+
+Other thing to take in count is the _definition_ of the plane, this _definition_ is used to measure how many vertices are gonna be needed to create the pleane, the more vertices the better the plane will look, knowing that it will also need to compute more values.
+
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/Planes_Definition.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/Planes_Definition_2.PNG" alt="Plane Definition 2" width="45%" style="display:inline-block;"/>
+</p>
+
+
