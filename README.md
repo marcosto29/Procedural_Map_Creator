@@ -68,7 +68,7 @@ A plane is nothing more than a group of vertices joined by lines to form triangl
 when creating a triangles from a vertice it is important to choose a clockwise order as explained before, with this order the triangle will render and behave correctly.
 
 <p align="center">
-  <img src="Procedural-Map-Creator/Assets/Photos/Vertices_and_Triangles..PNG" alt="Plane of 2 triangles"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/Vertices_and_Triangles.PNG" alt="Plane of 2 triangles"/>
 </p>
 
 This example shows a very simple plane created by 2 triangles, if both (clockwise and counter clockwise) are made when creating the triangles a double-side render plane will be created, a better yet more expensive solution.
