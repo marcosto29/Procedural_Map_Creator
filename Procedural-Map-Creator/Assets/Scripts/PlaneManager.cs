@@ -64,11 +64,11 @@ public class PlaneManager : MonoBehaviour
         meshFilter.mesh = mesh;
         meshCollider.sharedMesh = mesh;
 
-        //planeCreate = CreatePlane; // delegate with more steps
+        //planeCreate = CreatePlane;//delegate with more steps
 
-        planeCreate += () => { //delegate with lambda
+        planeCreate += () => {//delegate with lambda
 
-            mesh.Clear();
+            mesh.Clear();//this is optional, but if the mesh doesnt get refresh things might get spooky
 
             Vector2 intDef = new Vector2((int)definition.x, (int)definition.y);
 
@@ -78,27 +78,13 @@ public class PlaneManager : MonoBehaviour
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
 
-            mesh.RecalculateBounds();
+            mesh.RecalculateBounds();//this should be calles too when changing the geometry of the plane, unity doesnt like when you dont do it
         };
 
         isInitialized = true;
 
         planeCreate();
     }
-
-    private void Start()
-    {
-
-    }
-
-    //private void CreatePlane()
-    //{
-    //    vertices = PlaneGenerator.CreateVertices(definition, size);//extra step for better visualitazion on inspector
-    //    triangles = PlaneGenerator.CreateTriangles(definition);
-
-    //    mesh.vertices = vertices.ToArray();
-    //    mesh.triangles = triangles.ToArray();
-    //}
 
     // Update is called once per frame
     void Update()
@@ -111,8 +97,17 @@ public class PlaneManager : MonoBehaviour
     {
         if (isInitialized)
         {
-            //definitionProp = definition;
+            definitionProp = definition;
             sizeProp = size;
         }
     }
+
+    //private void CreatePlane()//for if i need it instead of the delegate
+    //{
+    //    vertices = PlaneGenerator.CreateVertices(definition, size);//extra step for better visualitazion on inspector
+    //    triangles = PlaneGenerator.CreateTriangles(definition);
+
+    //    mesh.vertices = vertices.ToArray();
+    //    mesh.triangles = triangles.ToArray();
+    //}
 }
