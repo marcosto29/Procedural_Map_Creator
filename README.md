@@ -73,7 +73,7 @@ when creating a triangles from a vertice it is important to choose a clockwise o
 
 This example shows a very simple plane created by 2 triangles, if both (clockwise and counter clockwise) are made when creating the triangles a double-side render plane will be created, a better yet more expensive solution.
 
-Other thing to take in count is the _definition_ of the plane, this _definition_ is used to measure how many vertices are gonna be needed to create the pleane, the more vertices the better the plane will look, knowing that it will also need to compute more values.
+Other thing to take in count is the _definition_ of the plane, this _definition_ is used to measure how many vertices are gonna be needed to create the pleane, the more vertices the "better" the plane will look, knowing that it will also need to compute more values.
 
 <p align="center">
   <img src="Procedural-Map-Creator/Assets/Photos/Planes_Definition.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
