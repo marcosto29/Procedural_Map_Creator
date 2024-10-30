@@ -15,4 +15,30 @@ public static class Math
         //unlike Random function when calculating a Perlin Value it does it through a number time variable (the value is fixed on that seed) and not between the range of 2 number variables
         return Mathf.PerlinNoise((x + timerCount * speed) * frequency, (y + timerCount * speed) * frequency) * amplitude;//The variable timerCount makes it so that the graph changes over time and the variable speed how fast does it
     }
+
+    public static List<Vector3> Mediatrix(Vector3 A, Vector3 B, Vector2 boundaries) {
+        //formula to calculate vectors between 2 points = 1/2(u + v) being u OA and v 0B, this vectors are equal to the respectives points since they start from [0,0]
+        Vector3 auxVector = A + B;
+        Vector3 midPoint = new Vector3(auxVector.x/2, auxVector.y/2, auxVector.z/2);
+        Vector3 vectorAB = B - A;
+        Vector3 perpendicularVector = new Vector3(-vectorAB.z, 0, vectorAB.x);
+        //mathematically the equation of a line that pass through a point and with a vector is = point + t(vector)
+        // x = point.x + vector.x * t
+        // z = point.z + vector.z * t
+        // z = point.z + vector.z * ((x - point.x)/vector.x) this is the equation of the line and we now that it has to go at least through 4 boundaries
+        // x = point.x + vector.x * ((z - point.z)/vector.z)
+        List<Vector3> points = new List<Vector3>();
+       
+        float x = midPoint.x + perpendicularVector.x * ((boundaries.y - midPoint.z) / perpendicularVector.z);//this thing needs to be optimize but this is geometry math
+        float z = midPoint.z + perpendicularVector.z * ((boundaries.x - midPoint.x) / perpendicularVector.x);
+        float x2 = midPoint.x + perpendicularVector.x * ((0 - midPoint.z) / perpendicularVector.z);
+        float z2 = midPoint.z + perpendicularVector.z * ((0 - midPoint.x) / perpendicularVector.x);
+        if (x <= boundaries.x && x >= 0) points.Add(new Vector3(x, 0, boundaries.y));
+        if (z <= boundaries.y && z >= 0) points.Add(new Vector3(boundaries.x, 0, z));
+        if (x2 >= 0 && x2 <= boundaries.x) points.Add(new Vector3(x2, 0, 0));
+        if (z2 >= 0 && z2 <= boundaries.y) points.Add(new Vector3(0, 0, z2));
+
+        return points;
+    }
+    
 }
