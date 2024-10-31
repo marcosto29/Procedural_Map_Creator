@@ -16,7 +16,7 @@ public static class Math
         return Mathf.PerlinNoise((x + timerCount * speed) * frequency, (y + timerCount * speed) * frequency) * amplitude;//The variable timerCount makes it so that the graph changes over time and the variable speed how fast does it
     }
 
-    public static List<Vector3> Mediatrix(Vector3 A, Vector3 B, Vector2 boundaries) {
+    public static List<Vector3> Bisector(Vector3 A, Vector3 B, Vector2 boundaries) {//just realize is spelled bisector not mediatrix
         //formula to calculate vectors between 2 points = 1/2(u + v) being u OA and v 0B, this vectors are equal to the respectives points since they start from [0,0]
         Vector3 auxVector = A + B;
         Vector3 midPoint = new Vector3(auxVector.x/2, auxVector.y/2, auxVector.z/2);
@@ -28,8 +28,11 @@ public static class Math
         // z = point.z + vector.z * ((x - point.x)/vector.x) this is the equation of the line and we now that it has to go at least through 4 boundaries
         // x = point.x + vector.x * ((z - point.z)/vector.z)
         List<Vector3> points = new List<Vector3>();
-       
-        float x = midPoint.x + perpendicularVector.x * ((boundaries.y - midPoint.z) / perpendicularVector.z);//this thing needs to be optimize but this is geometry math
+
+
+
+        //THIS FOR THE LOVE OF GOD NEEDS TO BE CHANGED TO SOMETHING  BETTER OH GOD EVERY TIME I SEE IT I WANT TO KEEP MYSELF SAFE (KMS)       
+        float x = midPoint.x + perpendicularVector.x * ((boundaries.y - midPoint.z) / perpendicularVector.z);//this thing needs to be optimize but basically is geometry math
         float z = midPoint.z + perpendicularVector.z * ((boundaries.x - midPoint.x) / perpendicularVector.x);
         float x2 = midPoint.x + perpendicularVector.x * ((0 - midPoint.z) / perpendicularVector.z);
         float z2 = midPoint.z + perpendicularVector.z * ((0 - midPoint.x) / perpendicularVector.x);
