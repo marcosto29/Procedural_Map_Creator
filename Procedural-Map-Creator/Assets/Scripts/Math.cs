@@ -16,7 +16,7 @@ public static class Math
         return Mathf.PerlinNoise((x + timerCount * speed) * frequency, (y + timerCount * speed) * frequency) * amplitude;//The variable timerCount makes it so that the graph changes over time and the variable speed how fast does it
     }
 
-    public static List<Vector3> Bisector(Vector3 A, Vector3 B, Vector2 boundaries) {//just realize is spelled bisector not mediatrix
+    public static List<Vector3> Bisector(Vector3 A, Vector3 B, Vector2 boundaries) {
         //formula to calculate vectors between 2 points = 1/2(u + v) being u OA and v 0B, this vectors are equal to the respectives points since they start from [0,0]
         Vector3 auxVector = A + B;
         Vector3 midPoint = new Vector3(auxVector.x/2, auxVector.y/2, auxVector.z/2);
