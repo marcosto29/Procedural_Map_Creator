@@ -13,6 +13,11 @@ public class Node <T>
     {
         value = v;
     }
+
+    public Node()
+    {
+        value = default(T);
+    }
     
     public void SetFather(Node<T> n)
     {

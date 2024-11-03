@@ -983,8 +983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
-  points: 7
-  vertices: []
+  points: 4
 --- !u!4 &2068115350
 Transform:
   m_ObjectHideFlags: 0

@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class LinkedList<T>
 {
-    Node<T> father;
-    int count;
+    public Node<T> father;
+    public int count;
     public LinkedList() {
 
         father = null;
         count = 0;
     }
 
-    public T this[int i]
+    public Node<T> this[int i]
     {
         get
         {
             if (i < 0 || i >= count)
                 throw new System.IndexOutOfRangeException("Index out of range");
-            return GetNode(i).value;
+            return GetNode(i);
         }
         set
         {
             if (i < 0 || i >= count)
                 throw new System.IndexOutOfRangeException("Index out of range");
-            SetNode(i, value);
+            SetNode(i, value.value);
         }
     }
 
@@ -98,20 +98,14 @@ public class LinkedList<T>
         iterator.value = v;
     }
 
-    public void AscendingSort(IComparer<T> c)
+    public void Print()
     {
-        
-        LinkedList<T> Sorted = new LinkedList<T>();
         int j = 0;
-        Node<T> sIterator = Sorted.father;
-        Node<T> nIterator = father;
-        while (j < count)
+        Node<T> iterator = father;
+        while(j < count)
         {
-            while (sIterator != null && c.Compare(nIterator.GetValue(), sIterator.GetValue()) >= 0)
-            {
-                sIterator = sIterator.GetFather();
-            }
-
+            Debug.Log(iterator.GetValue());
+            iterator = iterator.GetSon();
             j++;
         }
     }

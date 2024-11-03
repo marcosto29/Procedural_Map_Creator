@@ -25,12 +25,9 @@ public class DelaunayTriangulation : MonoBehaviour
 
     void InitialVertices()//initial method that calculate the mediatrix between N points given
     {
-        for (int i = 0; i < points; i++)
-        {
-            vertices.Add(new Vector3(Random.Range(0, size.x), 0, Random.Range(0, size.y))); //random vertices position
-        }
+        for (int i = 0; i < points; i++) vertices.Add(new Vector3(Random.Range(0, size.x), 0, Random.Range(0, size.y))); //random vertices position
         //sort them on a lexicographically ascending order (comparing first the x-coordinates and if its the same value the y-coordinate) from lowest to highest
-        vertices.AscendingSort(new ComparerV());//putting the comparer
+        QuickSort<Vector3>.AscendingSort(new ComparerV(), vertices, 0, vertices.count - 1);//putting the comparer
     }
 
     void Divide()//para mañana, este metodo solo va a servir para desplazar el puntero a donde le corresponde a partir ahí ya enviara el array correspondiente de puntos para que se hagan las operaciones convenientes
