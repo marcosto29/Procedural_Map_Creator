@@ -12,19 +12,19 @@ public class LinkedList<T>
         count = 0;
     }
 
-    public Node<T> this[int i]
+    public T this[int i]
     {
         get
         {
             if (i < 0 || i >= count)
                 throw new System.IndexOutOfRangeException("Index out of range");
-            return GetNode(i);
+            return GetNode(i).GetValue();
         }
         set
         {
             if (i < 0 || i >= count)
                 throw new System.IndexOutOfRangeException("Index out of range");
-            SetNode(i, value.value);
+            SetNode(i, value);
         }
     }
 
@@ -95,7 +95,7 @@ public class LinkedList<T>
             iterator = iterator.GetSon();
             j++;
         }
-        iterator.value = v;
+        iterator.SetValue(v);
     }
 
     public void Print()

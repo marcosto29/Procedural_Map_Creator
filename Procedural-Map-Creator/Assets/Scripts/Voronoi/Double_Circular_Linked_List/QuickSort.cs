@@ -13,29 +13,28 @@ public static class QuickSort<T>//QuickSort algorithm
         AscendingSort(c, L, pivot + 1, ending);//right recursion
     }
 
-    static int Recursion(IComparer<T> c, LinkedList<T> L, int beginning, int ending)
+    static int Recursion(IComparer<T> c, LinkedList<T> L, int beginning, int ending)//Sorting part
     {
         int i = beginning - 1;
         int pivot = ending;
 
         for (int j = beginning; j < ending; j++)
         {
-            if (c.Compare(L[j].GetValue(), L[pivot].GetValue()) < 0)
+            if (c.Compare(L[j], L[pivot]) < 0)
             {
                 i++;
-                SwapNodes(L, L[i], L[j]);
+                SwapNodes(L, i, j);
             }
         }
         i++;
-        SwapNodes(L, L[i], L[pivot]);
+        SwapNodes(L, i, pivot);
         return i;
     }
 
-    static void SwapNodes(LinkedList<T> L, Node<T> a, Node<T> b)
+    static void SwapNodes(LinkedList<T> L, int a, int b)
     {
-        T temp = a.value;
-        a.value = b.value;
-        b.value = temp;
+        T temp = L[a];
+        L[a] = L[b];
+        L[b] = temp;
     }
 }
-

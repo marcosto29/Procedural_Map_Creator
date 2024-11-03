@@ -5,7 +5,7 @@ using System;
 
 public class Node <T>
 {
-    public T value;
+    T value;
     Node<T> child;
     Node<T> father;
 
