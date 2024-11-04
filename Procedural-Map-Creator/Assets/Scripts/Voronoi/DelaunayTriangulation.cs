@@ -11,7 +11,7 @@ public class DelaunayTriangulation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        vertices = new LinkedList<Vector3>();
+        vertices = new();
         //before doing the bisectors calculations, i need to do a delaunay triangulation to eliminate unnecessary triangles 
         Delaunay();
     }
@@ -26,7 +26,7 @@ public class DelaunayTriangulation : MonoBehaviour
     {
         for (int i = 0; i < points; i++) vertices.Add(new Vector3(Random.Range(0, size.x), 0, Random.Range(0, size.y))); //random vertices position
         //sort them on a lexicographically ascending order (comparing first the x-coordinates and if its the same value the y-coordinate) from lowest to highest
-        QuickSort<Vector3>.AscendingSort(new ComparerV(), vertices, 0, vertices.count - 1);//Sorting the List
+        QuickSort<Vector3>.ASort(new ComparerV(), vertices, 0, vertices.count - 1);//Sorting the List
         Divide(0, vertices.count);
     }
 
@@ -37,7 +37,7 @@ public class DelaunayTriangulation : MonoBehaviour
         while (end - start > 3) end = ((end - start) / 2) + start;//formula to navigate through vertices
 
         int edgeLimit = HullCreator(start, end);
-        //algorithm to join with the hull immediately to the left (and make the triangulation, Conquer)
+        //Conquer(0, start - 1, start, edgeLimit);//algorithm to join with the hull immediately to the left (and make the triangulation, Conquer)
         Divide(edgeLimit, vertices.count);//recursion to keep adding hulls step by step
     }
 
@@ -46,9 +46,9 @@ public class DelaunayTriangulation : MonoBehaviour
         //we have the edge to create left and right side
         LinkedList<Vector3> aux = new LinkedList<Vector3>();
 
-        for (int i = start; i < end - 1; i++) aux.Add(vertices[i]);
+        for (int i = start; i < end ; i++) aux.Add(vertices[i]);
         //check wether the vertices are colinear to instead of drawing a triangle just join them
-        bool line = CheckColinear(aux);
+        bool line = Math.CheckColinear(aux);
 
         if (!line)
         {
@@ -63,68 +63,54 @@ public class DelaunayTriangulation : MonoBehaviour
                 aux[2] = temp;
             }
         }
-        for (int i = start; i < end - 1; i++)//join left to right
+        for (int i = 0; i < aux.count; i++)//join left to right
         {
-            Debug.DrawLine(vertices[(i + 1) % vertices.count], vertices[i], Color.blue, 99999999.9f);//Debugging purpouse to see the proccess 
+            Debug.DrawLine(aux[i], aux[(i + 1) % aux.count], Color.blue, 99999999.9f);//Debugging purpouse to see the proccess 
         }
         return end;
     }
-    bool CheckColinear(LinkedList<Vector3> vertices)
+    void Conquer(int start1, int end1, int start2, int end2)
     {
-        //Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By) / 2 check if the area of the triangle is 0, doesnt need to divide by 2
-        if (vertices.count >= 3) return (vertices[0].x * (vertices[1].z - vertices[2].z) + vertices[1].x * (vertices[2].z - vertices[0].z) + vertices[2].x * (vertices[0].z - vertices[1].z)) == 0;
-        //when handling only 2 points catch the exception and send a true since a line will be created
-        return true;
-    }
-
-    List<Vector3> Conquer(List<Vector3> hull1, List<Vector3> hull2)
-    {
-        List<Vector3> mergedHull = new List<Vector3>();
-        Vector3 lRightmost = new Vector3();
-        Vector3 rLeftmost = new Vector3();
-
-        float aux1 = hull1.Max<Vector3>(p => p.x);
-        lRightmost = hull1.FirstOrDefault(p => p.x == aux1);
-
-        float aux2 = hull2.Min<Vector3>(p => p.x);
-        rLeftmost = hull2.FirstOrDefault(p => p.x == aux2);
-
-        //get the lowest tangent, check that there are no lowest values on both sides
-
-        Vector3 low1 = CheckLowHeight(hull1, lRightmost);
-
-        Vector3 low2= CheckLowHeight(hull2, rLeftmost);
-
-        Debug.DrawLine(low1, low2, Color.green, 999999.9f);
-
-        //get the highest tangent, check that there are no highest values on both sides
-
-        Vector3 high1 = CheckHighHeight(hull1, lRightmost);
-
-        Vector3 high2 = CheckHighHeight(hull2, rLeftmost);
-
-        Debug.DrawLine(high1, high2, Color.cyan, 999999.9f);
-
-        return mergedHull;
-    }
-
-    Vector3 CheckLowHeight(List<Vector3> a, Vector3 b)
-    {
-        Vector3 highest = b;
-        for(int i = 0; i < a.Count; i++)
+        LinkedList<Vector3> hull1 = new();
+        LinkedList<Vector3> hull2 = new();
+        for (int i = start1; i < end1; i++) hull1.Add(vertices[i]);
+        for (int i = start2; i < end2; i++) hull2.Add(vertices[i]);
+        Vector3 X = RM(hull1);
+        Vector3 Y = LM(hull2);
+        Vector3 Z = First(Y);
+        Vector3 Z2 = First(X);
+        Vector3 Z3 = Pred(X, Z2);
+        if(X != Vector3.zero)
         {
-            if (a[i].z < highest.z) highest = a[i];
-        }
-        return highest;
-    }
-    Vector3 CheckHighHeight(List<Vector3> a, Vector3 b)
-    {
-        Vector3 highest = b;
-        for(int i = 0; i < a.Count; i++)
-        {
-            if (a[i].z > highest.z) highest = a[i];
-        }
-        return highest;
-    }
 
+        }
+
+    }
+    Vector3 RM(LinkedList<Vector3> auxV)
+    {
+        QuickSort<Vector3>.ASort(new ComparerV(), auxV, 0, auxV.count - 1);//Sorting the List
+        if (auxV[0] == null) return Vector3.zero;
+        return auxV[0];
+    }
+    Vector3 LM(LinkedList<Vector3> auxV)
+    {
+        QuickSort<Vector3>.DSort(new ComparerV(), auxV, 0, auxV.count - 1);//Sorting the List
+        return auxV[0];
+    }
+    Vector3 First(Vector3 V)
+    {
+        return Vector3.zero;
+    }
+    Vector3 Pred(Vector3 V, Vector3 V2)
+    {
+        return Vector3.zero;
+    }
+    Vector3 Succ(Vector3 V, Vector3 V2)
+    {
+        return Vector3.zero;
+    }
+    bool IsRight(Vector3 LV, Vector3 LV2, Vector3 V)
+    {
+        return (LV2.x - V.x) * (V.y - LV.y) - (LV2.y - LV.y) * (V.x - LV.x) < 0;
+    }
 }

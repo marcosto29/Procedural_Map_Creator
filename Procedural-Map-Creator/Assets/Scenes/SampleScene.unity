@@ -983,7 +983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 10, y: 10}
-  points: 8
+  points: 5
 --- !u!4 &2068115350
 Transform:
   m_ObjectHideFlags: 0
