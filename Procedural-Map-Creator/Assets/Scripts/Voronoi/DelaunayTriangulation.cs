@@ -26,7 +26,7 @@ public class DelaunayTriangulation : MonoBehaviour
     {
         for (int i = 0; i < points; i++) vertices.Add(new Vector3(Random.Range(0, size.x), 0, Random.Range(0, size.y))); //random vertices position
         //sort them on a lexicographically ascending order (comparing first the x-coordinates and if its the same value the y-coordinate) from lowest to highest
-        QuickSort<Vector3>.ASort(new ComparerV(), vertices, 0, vertices.count - 1);//Sorting the List
+        QuickSort<Vector3>.Sort(vertices, 0, vertices.count - 1, (a, b) => new ComparerV().Compare(a, b) < 0);//Sorting the List
         Divide(0, vertices.count);
     }
 
@@ -88,13 +88,13 @@ public class DelaunayTriangulation : MonoBehaviour
     }
     Vector3 RM(LinkedList<Vector3> auxV)
     {
-        QuickSort<Vector3>.ASort(new ComparerV(), auxV, 0, auxV.count - 1);//Sorting the List
+        QuickSort<Vector3>.Sort(auxV, 0, auxV.count - 1, (a, b) => new ComparerV().Compare(a, b) < 0);//Sorting the List
         if (auxV[0] == null) return Vector3.zero;
         return auxV[0];
     }
     Vector3 LM(LinkedList<Vector3> auxV)
     {
-        QuickSort<Vector3>.DSort(new ComparerV(), auxV, 0, auxV.count - 1);//Sorting the List
+        QuickSort<Vector3>.Sort(auxV, 0, auxV.count - 1, (a, b) => new ComparerV().Compare(a, b) > 0);//Sorting the List
         return auxV[0];
     }
     Vector3 First(Vector3 V)

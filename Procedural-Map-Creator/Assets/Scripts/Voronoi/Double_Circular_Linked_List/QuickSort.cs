@@ -5,25 +5,16 @@ using System;
 
 public static class QuickSort<T>//QuickSort algorithm
 {
-    public static void ASort(IComparer<T> c, LinkedList<T> L, int beginning, int ending)
+    public static void Sort(LinkedList<T> L, int beginning, int ending, Func<T, T, bool> compare)
     {
         if (ending <= beginning) return;
 
-        int pivot = Recursion(c, L, beginning, ending, (a, b) => c.Compare(a, b) < 0);
-        ASort(c, L, beginning, pivot - 1);//left recursion
-        ASort(c, L, pivot + 1, ending);//right recursion
+        int pivot = Recursion(L, beginning, ending, compare);
+        Sort(L, beginning, pivot - 1, compare);//left recursion
+        Sort(L, pivot + 1, ending, compare);//right recursion
     }
 
-    public static void DSort(IComparer<T> c, LinkedList<T> L, int beginning, int ending)
-    {
-        if (ending <= beginning) return;
-
-        int pivot = Recursion(c, L, beginning, ending, (a, b) => c.Compare(a, b) > 0);
-        DSort(c, L, beginning, pivot - 1);//left recursion
-        DSort(c, L, pivot + 1, ending);//right recursion
-    }
-
-    static int Recursion(IComparer<T> c, LinkedList<T> L, int beginning, int ending, Func<T, T, bool> compare)//Sorting part
+    static int Recursion(LinkedList<T> L, int beginning, int ending, Func<T, T, bool> compare)//Sorting part
     {
         int i = beginning - 1;
         int pivot = ending;
