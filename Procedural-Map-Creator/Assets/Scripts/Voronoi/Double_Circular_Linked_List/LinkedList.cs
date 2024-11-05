@@ -109,4 +109,23 @@ public class LinkedList<T>
             j++;
         }
     }
+
+    public Node<T> Get(T value)
+    {
+        int j = 0;
+        Node<T> iterator = father;
+        while (j < count)
+        {
+            if(EqualityComparer<T>.Default.Equals(iterator.GetValue(), value)) return iterator;
+            iterator = iterator.GetSon();
+            j++;
+        }
+        return null;
+    }
+
+    public bool isEmpty()
+    {
+        if (count <= 0) return true;
+        return false;
+    }
 }

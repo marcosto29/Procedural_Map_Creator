@@ -28,10 +28,7 @@ public static class Math
         // z = point.z + vector.z * ((x - point.x)/vector.x) this is the equation of the line and we now that it has to go at least through 4 boundaries
         // x = point.x + vector.x * ((z - point.z)/vector.z)
         List<Vector3> points = new List<Vector3>();
-
-
-
-        //THIS FOR THE LOVE OF GOD NEEDS TO BE CHANGED TO SOMETHING  BETTER OH GOD EVERY TIME I SEE IT I WANT TO KEEP MYSELF SAFE (KMS)       
+     
         float x = midPoint.x + perpendicularVector.x * ((boundaries.y - midPoint.z) / perpendicularVector.z);//this thing needs to be optimize but basically is geometry math
         float z = midPoint.z + perpendicularVector.z * ((boundaries.x - midPoint.x) / perpendicularVector.x);
         float x2 = midPoint.x + perpendicularVector.x * ((0 - midPoint.z) / perpendicularVector.z);
@@ -49,6 +46,10 @@ public static class Math
         if (vertices.count >= 3) return (vertices[0].x * (vertices[1].z - vertices[2].z) + vertices[1].x * (vertices[2].z - vertices[0].z) + vertices[2].x * (vertices[0].z - vertices[1].z)) == 0;
         //when handling only 2 points catch the exception and send a true since a line will be created
         return true;
+    }
+    public static float Distance(Vector3 V, Vector3 V2, Vector3 Y)
+    {
+        return Vector3.Magnitude(Vector3.Cross(V2 - V, V - Y)) / Vector3.Magnitude(V2 - V);
     }
 
 }
