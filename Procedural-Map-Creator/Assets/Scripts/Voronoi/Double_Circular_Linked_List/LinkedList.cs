@@ -12,6 +12,19 @@ public class LinkedList<T>
         count = 0;
     }
 
+    public LinkedList(LinkedList<T> L)
+    {
+        if (L.father == null)
+        {
+            this.father = null;
+            this.count = 0;
+        }
+        else
+        {
+            for(int i = 0; i < L.count; i++) this.Add(L[i]);
+        }
+    }
+
     public T this[int i]
     {
         get
@@ -127,5 +140,23 @@ public class LinkedList<T>
     {
         if (count <= 0) return true;
         return false;
+    }
+
+    public void Remove(T value)
+    {
+        int j = 0;
+        Node<T> iterator = father;
+        while (j < count)
+        {
+            if (EqualityComparer<T>.Default.Equals(iterator.GetValue(), value))
+            {
+                Node<T> aux = iterator.GetFather();
+                aux.SetSon(iterator.GetSon());
+                iterator.GetSon().SetFather(aux);
+            }
+            iterator = iterator.GetSon();
+            j++;
+            count--;
+        }
     }
 }

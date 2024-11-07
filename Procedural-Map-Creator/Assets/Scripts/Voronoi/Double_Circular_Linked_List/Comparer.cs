@@ -17,21 +17,10 @@ public class ComparerV : IComparer<Vector3>
         return 0; // Points are equal
     }
 
-    public int Compare(float C1, float C2, float M1, float M2)//order from lowest to highest on the right side of a line so that is counter - clockwise
+    public int Compare(float M1, float M2)//order from lowest to highest on the right side of a line so that is counter - clockwise
     {
-        if (C1 < 0 && C2 < 0) 
-        {
-            if (M1 < M2) return 1;   
-            else if (M1 == M2) return 0; 
-            else return -1;            
-        }
-        else if (C1 >= 0 && C2 >= 0) 
-        {
-            if (M1 < M2) return 1;  
-            else if (M1 == M2) return 0;
-            else return -1;
-        }
-        else if (C1 < 0 && C2 >= 0) return 1;
-        return -1;
+        if (M1 < M2) return -1;
+        if (M1 > M2) return 1;
+        return 0;
     }
 }
