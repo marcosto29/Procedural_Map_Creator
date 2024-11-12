@@ -25,6 +25,12 @@ public class LinkedList<T>
         }
     }
 
+    public LinkedList(T n)
+    {
+        father = new(n);
+        this.count++;
+    }
+
     public T this[int i]
     {
         get
@@ -43,7 +49,7 @@ public class LinkedList<T>
 
     public void Add(T v)
     {
-        Node<T> n = new Node<T>(v);
+        Node<T> n = new(v);
         if (father == null)
         {
             father = n;
@@ -87,7 +93,7 @@ public class LinkedList<T>
         }
     }
 
-    private Node<T> GetNode(int i)
+    public Node<T> GetNode(int i)
     {
         Node<T> iterator = father;
         int j = 0;

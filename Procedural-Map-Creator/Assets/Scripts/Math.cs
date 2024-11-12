@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public static class Math
 {
@@ -50,6 +51,32 @@ public static class Math
     public static float Distance(Vector3 V, Vector3 V2, Vector3 Y)
     {
         return Vector3.Magnitude(Vector3.Cross(V2 - V, V - Y)) / Vector3.Magnitude(V2 - V);
+    }
+    public static bool IsRight(Vector3 A, Vector3 B, Vector3 M)
+    {
+        //cross product of AM and AB
+        //AM = M - A
+        //AB = B - A
+        Vector3 AM = M - A;
+        Vector3 AB = B - A;
+        Vector3 Orthogonal = Vector3.Cross(AB, AM);
+        return (Orthogonal.y > 0);
+    }
+    public static Vector3 ChosenPoint(LinkedList<Vector3> auxV, Func<Vector3, Vector3, bool> comparer)
+    {
+        QuickSort<Vector3>.Sort(auxV, 0, auxV.count - 1, comparer);//Sorting the List
+        return auxV[0];
+    }
+    public static float Angle(Vector3 V, Vector3 V2)
+    {
+        float dotProduct = Vector3.Dot(V, V2);
+
+        float magnitudeA = V.magnitude;
+        float magnitudeB = V2.magnitude;
+
+        float angleRadians = (float)System.Math.Round(Mathf.Acos(dotProduct / (magnitudeA * magnitudeB)) , 2);
+
+        return angleRadians * Mathf.Rad2Deg;
     }
 
 }
