@@ -80,4 +80,10 @@ Other thing to take in count is the _definition_ of the plane, this _definition_
   <img src="Procedural-Map-Creator/Assets/Photos/Planes_Definition_2.PNG" alt="Plane Definition 2" width="45%" style="display:inline-block;"/>
 </p>
 
+## Lee and Schachter and the Delaunay Triangulation
+
+Even tho this plane is already functional and with some variations on the _frecuency_, _amplitude_, _definiton_ and _size_ there could be a map, this approach seems pretty simple since the map is basically a X times Y matrix, to fix this there some algorithms that can result on a more complex terrain, the Voronoi Diagram for example can be helpful to get irregular zones determined by the initial position of some sample points, this diagram is used frequently to separate certain points with the distance between each other and created with the bisectors of the segment between two points, it can create poligonal like images, which worked on can result on a more realistic and "random" terrain.
+
+
+
 
