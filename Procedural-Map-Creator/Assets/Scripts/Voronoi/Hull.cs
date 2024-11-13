@@ -17,7 +17,7 @@ public class Hull
     }
     public Vector3 FollowingPoint(Vector3 V, Vector3 V2, string sequence)
     {
-        if (edgePoints.count == 2) return (edgePoints[0] == V2 || edgePoints[0] == V) ? edgePoints[1] : edgePoints[0];//segment case
+        if (edgePoints.count == 2) return (edgePoints[0] == V) ? edgePoints[1] : edgePoints[0];//segment case
 
         //create an aux list that will contain each point with the distance to the segment and whether is on the right or left side
         LinkedList<Tuple<Vector3, bool, float>> auxVectors = new();

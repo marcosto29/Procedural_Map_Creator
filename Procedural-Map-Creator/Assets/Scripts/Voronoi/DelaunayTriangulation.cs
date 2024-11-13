@@ -118,22 +118,25 @@ public class DelaunayTriangulation : MonoBehaviour
         Vector3 X = Math.ChosenPoint(new LinkedList<Vector3>(convexHull.points), (a, b) => new ComparerV().CompareX(a, b) > 0);
         Vector3 Y = Math.ChosenPoint(new LinkedList<Vector3>(mergingHull.points), (a, b) => new ComparerV().CompareX(a, b) < 0);
 
-        Vector3 Z2 = convexHull.FollowingPoint(X, Y, "Right");
-        Vector3 Z = mergingHull.FollowingPoint(X, Y, "Left");
+        Vector3 centerX = X;
+        Vector3 centerY = Y;
+
+        Vector3 Z2 = convexHull.FollowingPoint(centerX, convexHull.edgePoints.Get(X).GetSon().GetValue(), "Right");
+        Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetFather().GetValue(), "Left");
 
         while (Math.IsRight(X, Y, Z) == true || Math.IsRight(X, Y, Z2) == true)
         {
             if (Math.IsRight(X, Y, Z))
             {
                 Y = Z;
-                Z = mergingHull.FollowingPoint(X, Y, "Left");
+                Z = mergingHull.FollowingPoint(centerY, Y, "Left");
             }
             else
             {
                 if (Math.IsRight(X, Y, Z2))
                 {
                     X = Z2;
-                    Z2 = convexHull.FollowingPoint(X, Y, "Right");                  
+                    Z2 = convexHull.FollowingPoint(centerX, X, "Right");                  
                 }
             }
         }
@@ -145,22 +148,25 @@ public class DelaunayTriangulation : MonoBehaviour
         Vector3 X = Math.ChosenPoint(new LinkedList<Vector3>(convexHull.points), (a, b) => new ComparerV().CompareX(a, b) > 0);
         Vector3 Y = Math.ChosenPoint(new LinkedList<Vector3>(mergingHull.points), (a, b) => new ComparerV().CompareX(a, b) < 0);
 
-        Vector3 Z2 = convexHull.FollowingPoint(X, Y, "Left");
-        Vector3 Z = mergingHull.FollowingPoint(X, Y, "Right");
+        Vector3 centerX = X;
+        Vector3 centerY = Y;
+
+        Vector3 Z2 = convexHull.FollowingPoint(centerX, mergingHull.edgePoints.Get(Y).GetFather().GetValue(), "Left");
+        Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetSon().GetValue(), "Right");
 
         while ((!Math.IsRight(X, Y, Z) && Z != Y) || (!Math.IsRight(X, Y, Z2) && X != Z2))
         {
             if (!Math.IsRight(X, Y, Z) && Z != Y)
             {
                 Y = Z;
-                Z = mergingHull.FollowingPoint(X, Y, "Right");
+                Z = mergingHull.FollowingPoint(centerY, Y, "Right");
             }
             else
             {
                 if (!Math.IsRight(X, Y, Z2) && X != Z2)
                 {
                     X = Z2;
-                    Z2 = convexHull.FollowingPoint(X, Y, "Left");
+                    Z2 = convexHull.FollowingPoint(centerX, X, "Left");
                 }
             }
         }
