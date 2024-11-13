@@ -19,14 +19,8 @@ public class DelaunayTriangulation : MonoBehaviour
     }
     void Delaunay()//initial method that calculate the mediatrix between N points given
     {
-        for (int i = 0; i < points; i++) vertices.Add(new Vector3(UnityEngine.Random.Range(0, size.x), 0, UnityEngine.Random.Range(0, size.y))); //random vertices position
-                                                                                                                                                 //vertices[0] = new Vector3(2.08f, 0, 0.63f);
-                                                                                                                                                 //vertices[1] = new Vector3(3.66f, 0, 8.70f);
-                                                                                                                                                 //vertices[2] = new Vector3(3.99f, 0, 5.08f);
-                                                                                                                                                 //vertices[3] = new Vector3(5.26f, 0, 3.83f);
-                                                                                                                                                 //vertices[4] = new Vector3(7.60f, 0, 7.71f);
-                                                                                                                                                 //vertices[5] = new Vector3(8.53f, 0, 0.25f);
-                                                                                                                                                 //vertices[6] = new Vector3(9.59f, 0, 8.78f);
+        //random vertices position
+        for (int i = 0; i < points; i++) vertices.Add(new Vector3(UnityEngine.Random.Range(0, size.x), 0, UnityEngine.Random.Range(0, size.y)));
 
         //vertices[0] = new Vector3(2.65f, 0, 5.34f);
         //vertices[1] = new Vector3(4.44f, 0, 1.46f);
@@ -36,15 +30,15 @@ public class DelaunayTriangulation : MonoBehaviour
         //vertices[5] = new Vector3(9.72f, 0, 2.43f);
         //vertices[6] = new Vector3(9.96f, 0, 4.53f);
 
-        vertices[0] = new Vector3(2.04f, 0, 4.62f);
-        vertices[1] = new Vector3(3.95f, 0, 9.23f);
-        vertices[2] = new Vector3(4.34f, 0, 7.36f);
-        vertices[3] = new Vector3(5.25f, 0, 4.70f);
-        vertices[4] = new Vector3(6.08f, 0, 7.93f);
-        vertices[5] = new Vector3(7.04f, 0, 9.24f);
-        vertices[6] = new Vector3(8.26f, 0, 7.96f);
-        vertices[7] = new Vector3(9.47f, 0, 7.45f);
-        vertices[8] = new Vector3(9.84f, 0, 6.39f);
+        //vertices[0] = new Vector3(2.04f, 0, 4.62f);
+        //vertices[1] = new Vector3(3.95f, 0, 9.23f);
+        //vertices[2] = new Vector3(4.34f, 0, 7.36f);
+        //vertices[3] = new Vector3(5.25f, 0, 4.70f);
+        //vertices[4] = new Vector3(6.08f, 0, 7.93f);
+        //vertices[5] = new Vector3(7.04f, 0, 9.24f);
+        //vertices[6] = new Vector3(8.26f, 0, 7.96f);
+        //vertices[7] = new Vector3(9.47f, 0, 7.45f);
+        //vertices[8] = new Vector3(9.84f, 0, 6.39f);
 
         //vertices[0] = new Vector3(0.45f, 0, 2.72f);
         //vertices[1] = new Vector3(1.65f, 0, 8.75f);
@@ -124,22 +118,22 @@ public class DelaunayTriangulation : MonoBehaviour
         Vector3 X = Math.ChosenPoint(new LinkedList<Vector3>(convexHull.points), (a, b) => new ComparerV().CompareX(a, b) > 0);
         Vector3 Y = Math.ChosenPoint(new LinkedList<Vector3>(mergingHull.points), (a, b) => new ComparerV().CompareX(a, b) < 0);
 
-        Vector3 Z2 = convexHull.FollowingPoint(X, Y, "Pred");
-        Vector3 Z = mergingHull.FollowingPoint(X, Y, "Succ");
+        Vector3 Z2 = convexHull.FollowingPoint(X, Y, "Right");
+        Vector3 Z = mergingHull.FollowingPoint(X, Y, "Left");
 
         while (Math.IsRight(X, Y, Z) == true || Math.IsRight(X, Y, Z2) == true)
         {
             if (Math.IsRight(X, Y, Z))
             {
                 Y = Z;
-                Z = mergingHull.FollowingPoint(X, Y, "Succ");
+                Z = mergingHull.FollowingPoint(X, Y, "Left");
             }
             else
             {
                 if (Math.IsRight(X, Y, Z2))
                 {
                     X = Z2;
-                    Z2 = convexHull.FollowingPoint(X, Y, "Pred");                  
+                    Z2 = convexHull.FollowingPoint(X, Y, "Right");                  
                 }
             }
         }
@@ -151,22 +145,22 @@ public class DelaunayTriangulation : MonoBehaviour
         Vector3 X = Math.ChosenPoint(new LinkedList<Vector3>(convexHull.points), (a, b) => new ComparerV().CompareX(a, b) > 0);
         Vector3 Y = Math.ChosenPoint(new LinkedList<Vector3>(mergingHull.points), (a, b) => new ComparerV().CompareX(a, b) < 0);
 
-        Vector3 Z2 = convexHull.FollowingPoint(X, Y, "Succ");
-        Vector3 Z = mergingHull.FollowingPoint(X, Y, "Pred");
+        Vector3 Z2 = convexHull.FollowingPoint(X, Y, "Left");
+        Vector3 Z = mergingHull.FollowingPoint(X, Y, "Right");
 
         while ((!Math.IsRight(X, Y, Z) && Z != Y) || (!Math.IsRight(X, Y, Z2) && X != Z2))
         {
             if (!Math.IsRight(X, Y, Z) && Z != Y)
             {
                 Y = Z;
-                Z = mergingHull.FollowingPoint(X, Y, "Pred");
+                Z = mergingHull.FollowingPoint(X, Y, "Right");
             }
             else
             {
                 if (!Math.IsRight(X, Y, Z2) && X != Z2)
                 {
                     X = Z2;
-                    Z2 = convexHull.FollowingPoint(X, Y, "Succ");
+                    Z2 = convexHull.FollowingPoint(X, Y, "Left");
                 }
             }
         }
