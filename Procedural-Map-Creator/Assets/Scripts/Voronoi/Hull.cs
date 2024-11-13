@@ -15,6 +15,38 @@ public class Hull
         points = new();
         edgePoints = new();
     }
+    public Hull(int start, int end, LinkedList<Vector3> vertices)
+    {
+        edges = new();
+        points = new();
+        edgePoints = new();
+
+        for (int i = start; i < end; i++) points.Add(vertices[i]);
+        //check wether the vertices are colinear to instead of drawing a triangle just join them
+        bool line = Math.CheckColinear(points);
+
+        if (!line)
+        {
+            Vector3 aux1 = points[1] - points[0];
+            Vector3 aux2 = points[2] - points[0];
+            float crossProductZ = aux1.x * aux2.z - aux1.z * aux2.x;
+            if (crossProductZ <= 0)//if they are clockwise swap them
+            {
+                Vector3 temp = points[1];
+                vertices.Get(points[2]).SetValue(temp);
+                vertices.Get(points[1]).SetValue(points[2]);//swap them on the array
+
+                points[1] = points[2];//here too so that it can be later painted, this is for debugging purpose
+                points[2] = temp;
+            }
+        }
+        for (int i = 0; i < points.count; i++)//join left to right
+        {
+            edgePoints.Add(points[i]);
+            Debug.DrawLine(points[i], points[(i + 1) % points.count], Color.blue, 99999999.9f);//Debugging purpouse to see the proccess
+            edges.Add(new Tuple<Vector3, Vector3>(points[i], points[(i + 1) % points.count]));
+        }
+    }
     public Vector3 FollowingPoint(Vector3 V, Vector3 V2, string sequence)
     {
         if (edgePoints.count == 2) return (edgePoints[0] == V) ? edgePoints[1] : edgePoints[0];//segment case
@@ -32,8 +64,7 @@ public class Hull
             else
             {
                 if (!isRight) angle = 360 - angle;
-            }
-            
+            }     
             if(edgePoints[i] != V2 && edgePoints[i] != V) auxVectors.Add(new Tuple<Vector3, bool, float>(edgePoints[i], isRight, angle));
         }
         //sort them from closest to farthest
