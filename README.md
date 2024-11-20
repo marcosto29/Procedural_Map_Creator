@@ -84,6 +84,23 @@ Other thing to take in count is the _definition_ of the plane, this _definition_
 
 Even tho this plane is already functional and with some variations on the _frecuency_, _amplitude_, _definiton_ and _size_ there could be a map, this approach seems pretty simple since the map is basically a X times Y matrix, to fix this there some algorithms that can result on a more complex terrain, the Voronoi Diagram for example can be helpful to get irregular zones determined by the initial position of some sample points, this diagram is used frequently to separate certain points with the distance between each other and created with the bisectors of the segment between two points, it can create poligonal like images, which worked on can result on a more realistic and "random" terrain.
 
+Before working with voronoi it is important to have a good plane to work with given some random points, Delaunay Triangulation is a good approach since it creates a plane with the minimun edges and triangles needed.
+
+The fundamental idea which this triangulation apply is that each existing circumcircle can only surround its respective triangle.
+
+# Creating a convex hull
+
+Given the algorithm previously explained by Lee and Schachter, i made some changes to create my own loop that build up this convex hull.
+
+Still using the Divide and Conquer algorithm, given N points this algorithm recursively half the amount of points until it isolates either 3 or 2 points. After that, the points are joined in a counterclock wise order (if there are only 2 points they are joined left to right).
+
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/Divide_1.PNG" alt="Plane Definition" width="22%" style="display:inline-block; margin-right: 10px;"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/Divide_2.PNG" alt="Plane Definition 2" width="22%" style="display:inline-block;"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/Divide_3.PNG" alt="Plane Definition 2" width="22%" style="display:inline-block;"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/Divide_4.PNG" alt="Plane Definition 2" width="22%" style="display:inline-block;"/>
+</p>
+
 
 
 
