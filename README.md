@@ -102,5 +102,4 @@ Once the points are joined, the "Conquer" phase starts, on this part the hull cr
 
 <p align="center">
   <img src="Procedural-Map-Creator/Assets/Photos/Conquer.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
-  <img src="Procedural-Map-Creator/Assets/Photos/Convex_Hull.PNG" alt="Plane Definition" width="45%" style="display:inline-block;"/>
 </p>
