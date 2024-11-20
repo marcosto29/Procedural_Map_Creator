@@ -94,6 +94,8 @@ Given the algorithm previously explained by Lee and Schachter, i made some chang
 
 Still using the Divide and Conquer algorithm, given N points this algorithm recursively half the amount of points until it isolates either 3 or 2 points. After that, the points are joined in a counterclock wise order (if there are only 2 points they are joined left to right).
 
-
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/Divide.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
+</p>
 
 
