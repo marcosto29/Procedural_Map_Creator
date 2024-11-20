@@ -92,10 +92,15 @@ The fundamental idea which this triangulation apply is that each existing circum
 
 Given the algorithm previously explained by Lee and Schachter, i made some changes to create my own loop that build up this convex hull.
 
-Still using the Divide and Conquer algorithm, given N points this algorithm recursively half the amount of points until it isolates either 3 or 2 points. After that, the points are joined in a counterclock wise order (if there are only 2 points they are joined left to right).
+Still using the Divide and Conquer algorithm, given N points this algorithm recursively half (Divide) the amount of points until it isolates either 3 or 2 points. After that, the points are joined in a counterclock wise order (if there are only 2 points they are joined left to right).
 
 <p align="center">
   <img src="Procedural-Map-Creator/Assets/Photos/Divide.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
 </p>
 
+Once the points are joined, the "Conquer" phase starts, on this part the hull created merges with the one immediately to the left searching both the lower and upper tangent, the result would be a merged convex hull.
 
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/Conquer.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
+  <img src="Procedural-Map-Creator/Assets/Photos/Convex_Hull.PNG" alt="Plane Definition" width="45%" style="display:inline-block;"/>
+</p>
