@@ -90,7 +90,7 @@ The fundamental idea which this triangulation apply is that each existing circum
 
 # Creating a convex hull
 
-Given the algorithm previously explained by Lee and Schachter, i made some changes to create my own loop that build up this convex hull.
+Given the algorithm previously explained by Lee and Schachter, I made some changes to create my own loop that build up this convex hull.
 
 Still using the Divide and Conquer algorithm, given N points this algorithm recursively half (Divide) the amount of points until it isolates either 3 or 2 points. After that, the points are joined in a counterclock wise order (if there are only 2 points they are joined left to right).
 
@@ -103,3 +103,7 @@ Once the points are joined, the "Conquer" phase starts, on this part the hull cr
 <p align="center">
   <img src="Procedural-Map-Creator/Assets/Photos/Conquer.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
 </p>
+
+To find the upper and lower tangent a loop that goes through both hull's vertices will compare each one of them until a certain condition is met, on the lower tangent that condition will be that there are no other vertices on the right side of th tangent while on the upper tangent is the opposite no other vertices must be on the left side.
+
+To achive this, the algorithm starts with the same approach explained on the Lee and Schachter paper, it takes both the rightmost (on the left hull) and the leftmost (on the right hull).
