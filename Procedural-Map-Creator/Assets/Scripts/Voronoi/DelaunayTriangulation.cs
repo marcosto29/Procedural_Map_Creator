@@ -25,6 +25,10 @@ public class DelaunayTriangulation : MonoBehaviour
         QuickSort<Vector3>.Sort(vertices, 0, vertices.count - 1, (a, b) => new ComparerV().CompareX(a, b) < 0);
         //Divide and conquer algorithm
         Divide(0, vertices.count);
+        //for (int i = 0; i < convexHull.edgePoints.count; i++)//final Hull
+        //{
+        //    Debug.DrawLine(convexHull.edgePoints[i], convexHull.edgePoints[(i + 1) % convexHull.edgePoints.count], Color.gray, 99999999.9f);//Debugging purpouse to see the proccess
+        //}
     }
 
     void Divide(int start, int end)
@@ -34,7 +38,7 @@ public class DelaunayTriangulation : MonoBehaviour
 
         while (end - start > 3) end = ((end - start) / 2) + start;//formula to navigate through vertices
 
-        Hull merge = new Hull(start, end, vertices);
+        Hull merge = new (start, end, vertices);
 
         Conquer(merge);//algorithm to join with the hull immediately to the left (and make the triangulation)
         Divide(end, vertices.count);//recursion to keep adding hulls step by step
@@ -44,25 +48,26 @@ public class DelaunayTriangulation : MonoBehaviour
         if(convexHull.points.count <= 0) convexHull = mergingHull;
         else
         {
-            Tuple<Vector3, Vector3> lowTangent = LowTangent(mergingHull);
-            Tuple<Vector3, Vector3> highTangent = HighTangent(mergingHull);
+            Vector3 X = Math.ChosenPoint(new LinkedList<Vector3>(convexHull.points), (a, b) => new ComparerV().CompareX(a, b) > 0);
+            Vector3 Y = Math.ChosenPoint(new LinkedList<Vector3>(mergingHull.points), (a, b) => new ComparerV().CompareX(a, b) < 0);
+
+            Vector3 centerX = X;
+            Vector3 centerY = Y;
+
+            Tuple<Vector3, Vector3> lowTangent = LowTangent(mergingHull, centerX, centerY, X, Y);
+            Tuple<Vector3, Vector3> highTangent = HighTangent(mergingHull, centerX, centerY, X, Y);
             convexHull.points.Print();
             mergingHull.points.Print();
             JoinHulls(mergingHull, lowTangent, highTangent);
         }
     }
-    Tuple<Vector3, Vector3> LowTangent(Hull mergingHull)
+    Tuple<Vector3, Vector3> LowTangent(Hull mergingHull, Vector3 centerX, Vector3 centerY, Vector3 X, Vector3 Y)
     {
-        Vector3 X = Math.ChosenPoint(new LinkedList<Vector3>(convexHull.points), (a, b) => new ComparerV().CompareX(a, b) > 0);
-        Vector3 Y = Math.ChosenPoint(new LinkedList<Vector3>(mergingHull.points), (a, b) => new ComparerV().CompareX(a, b) < 0);
-
-        Vector3 centerX = X;
-        Vector3 centerY = Y;
 
         Vector3 Z2 = convexHull.FollowingPoint(centerX, convexHull.edgePoints.Get(X).GetSon().GetValue(), "Right");
         Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetFather().GetValue(), "Left");
 
-        while (Math.IsRight(X, Y, Z) == true || Math.IsRight(X, Y, Z2) == true)
+        while (Math.IsRight(X, Y, Z) || Math.IsRight(X, Y, Z2))
         {
             if (Math.IsRight(X, Y, Z))
             {
@@ -81,27 +86,21 @@ public class DelaunayTriangulation : MonoBehaviour
         Debug.DrawLine(X, Y, Color.green, 9999999.9f);
         return new Tuple<Vector3, Vector3>(X, Y);
     }
-    Tuple<Vector3, Vector3> HighTangent(Hull mergingHull)
+    Tuple<Vector3, Vector3> HighTangent(Hull mergingHull, Vector3 centerX, Vector3 centerY, Vector3 X, Vector3 Y)
     {
-        Vector3 X = Math.ChosenPoint(new LinkedList<Vector3>(convexHull.points), (a, b) => new ComparerV().CompareX(a, b) > 0);
-        Vector3 Y = Math.ChosenPoint(new LinkedList<Vector3>(mergingHull.points), (a, b) => new ComparerV().CompareX(a, b) < 0);
-
-        Vector3 centerX = X;
-        Vector3 centerY = Y;
-
         Vector3 Z2 = convexHull.FollowingPoint(centerX, mergingHull.edgePoints.Get(Y).GetFather().GetValue(), "Left");
         Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetSon().GetValue(), "Right");
 
-        while ((!Math.IsRight(X, Y, Z) && Z != Y) || (!Math.IsRight(X, Y, Z2) && X != Z2))
+        while (Math.IsLeft(X, Y, Z) || Math.IsLeft(X, Y, Z2))
         {
-            if (!Math.IsRight(X, Y, Z) && Z != Y)
+            if (Math.IsLeft(X, Y, Z))
             {
                 Y = Z;
                 Z = mergingHull.FollowingPoint(centerY, Y, "Right");
             }
             else
             {
-                if (!Math.IsRight(X, Y, Z2) && X != Z2)
+                if (Math.IsLeft(X, Y, Z2))
                 {
                     X = Z2;
                     Z2 = convexHull.FollowingPoint(centerX, X, "Left");

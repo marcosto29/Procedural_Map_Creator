@@ -28,7 +28,7 @@ public static class Math
         // z = point.z + vector.z * t
         // z = point.z + vector.z * ((x - point.x)/vector.x) this is the equation of the line and we now that it has to go at least through 4 boundaries
         // x = point.x + vector.x * ((z - point.z)/vector.z)
-        List<Vector3> points = new List<Vector3>();
+        List<Vector3> points = new ();
      
         float x = midPoint.x + perpendicularVector.x * ((boundaries.y - midPoint.z) / perpendicularVector.z);//this thing needs to be optimize but basically is geometry math
         float z = midPoint.z + perpendicularVector.z * ((boundaries.x - midPoint.x) / perpendicularVector.x);
@@ -41,6 +41,7 @@ public static class Math
 
         return points;
     }
+
     public static bool CheckColinear(LinkedList<Vector3> vertices)
     {
         //Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By) / 2 check if the area of the triangle is 0, doesnt need to divide by 2
@@ -48,10 +49,12 @@ public static class Math
         //when handling only 2 points catch the exception and send a true since a line will be created
         return true;
     }
+
     public static float Distance(Vector3 V, Vector3 V2, Vector3 Y)
     {
         return Vector3.Magnitude(Vector3.Cross(V2 - V, V - Y)) / Vector3.Magnitude(V2 - V);
     }
+
     public static bool IsRight(Vector3 A, Vector3 B, Vector3 M)
     {
         //cross product of AM and AB
@@ -62,21 +65,22 @@ public static class Math
         Vector3 Orthogonal = Vector3.Cross(AB, AM);
         return (Orthogonal.y > 0);
     }
+
+    public static bool IsLeft(Vector3 A, Vector3 B, Vector3 M)
+    {
+        //cross product of AM and AB
+        //AM = M - A
+        //AB = B - A
+        Vector3 AM = M - A;
+        Vector3 AB = B - A;
+        Vector3 Orthogonal = Vector3.Cross(AB, AM);
+        return (Orthogonal.y < 0);
+    }
+
     public static Vector3 ChosenPoint(LinkedList<Vector3> auxV, Func<Vector3, Vector3, bool> comparer)
     {
         QuickSort<Vector3>.Sort(auxV, 0, auxV.count - 1, comparer);//Sorting the List
         return auxV[0];
-    }
-    public static float Angle(Vector3 V, Vector3 V2)
-    {
-        float dotProduct = Vector3.Dot(V, V2);
-
-        float magnitudeA = V.magnitude;
-        float magnitudeB = V2.magnitude;
-
-        float angleRadians = (float)System.Math.Round(Mathf.Acos(dotProduct / (magnitudeA * magnitudeB)) , 2);
-
-        return angleRadians * Mathf.Rad2Deg;
     }
 
 }
