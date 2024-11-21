@@ -104,6 +104,21 @@ Once the points are joined, the "Conquer" phase starts, on this part the hull cr
   <img src="Procedural-Map-Creator/Assets/Photos/Conquer.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
 </p>
 
-To find the upper and lower tangent a loop that goes through both hull's vertices will compare each one of them until a certain condition is met, on the lower tangent that condition will be that there are no other vertices on the right side of th tangent while on the upper tangent is the opposite no other vertices must be on the left side.
+'''
+X <-- RM(VL); Y <--LM(VR)
+CENTERX <-- X; CENTERY <-- Y
+Z2 <-- RIGHT(CENTERX, SON(X)) Z <<-- LEFT(CENTERY, FATHER(Y))
+
+WHILE(Z is-right-of l(X, Y) || Z2 is-right-of l(X, Y))
+	IF(Z is-right-of l(X, Y))
+		Y <-- Z
+		Z <-- LEFT(CENTERY, Y)
+   	ELSE
+		IF(Z2 is-right-of l(X, Y))
+			X <-- Z2
+			Z2 <-- RIGHT(CENTERX, X)
+'''
+
+To find the upper and lower tangent a loop that goes through both hull's vertices will compare each one of them until a certain condition is met, on the lower tangent that condition will be that there are no other vertices on the right side of the tangent while on the upper tangent is the opposite no other vertices must be on the left side.
 
 To achive this, the algorithm starts with the same approach explained on the Lee and Schachter paper, it takes both the rightmost (on the left hull) and the leftmost (on the right hull).
