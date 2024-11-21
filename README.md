@@ -133,3 +133,7 @@ These vectors always start from the same parent point, the center, and its endin
 <p align="center">
   <img src="Procedural-Map-Creator/Assets/Photos/Angles.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
 </p>
+
+Once the vertices are calculated the main loop checks whether they are the correct ones (checking if no other vertices are on the right or left side of the tangent created) or wheter new vertices are needed, if new vertices are needed the main loops repeats the same operation and checks the angles to select the new chosen vertex.
+
+When the condition is met on both hulls with a certain tangent that tangent is selected as the lower/upper one, and a new convex hull is created.
