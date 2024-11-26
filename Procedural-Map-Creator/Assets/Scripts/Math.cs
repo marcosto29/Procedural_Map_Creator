@@ -19,8 +19,7 @@ public static class Math
 
     public static List<Vector3> Bisector(Vector3 A, Vector3 B, Vector2 boundaries) {
         //formula to calculate vectors between 2 points = 1/2(u + v) being u OA and v 0B, this vectors are equal to the respectives points since they start from [0,0]
-        Vector3 auxVector = A + B;
-        Vector3 midPoint = new Vector3(auxVector.x/2, auxVector.y/2, auxVector.z/2);
+        Vector3 midPoint = MidPoint(A, B);
         Vector3 vectorAB = B - A;
         Vector3 perpendicularVector = new Vector3(-vectorAB.z, 0, vectorAB.x);
         //mathematically the equation of a line that pass through a point and with a vector is = point + t(vector)
@@ -28,6 +27,8 @@ public static class Math
         // z = point.z + vector.z * t
         // z = point.z + vector.z * ((x - point.x)/vector.x) this is the equation of the line and we now that it has to go at least through 4 boundaries
         // x = point.x + vector.x * ((z - point.z)/vector.z)
+        
+        
         List<Vector3> points = new ();
      
         float x = midPoint.x + perpendicularVector.x * ((boundaries.y - midPoint.z) / perpendicularVector.z);//this thing needs to be optimize but basically is geometry math
@@ -40,6 +41,12 @@ public static class Math
         if (z2 >= 0 && z2 <= boundaries.y) points.Add(new Vector3(0, 0, z2));
 
         return points;
+    }
+
+    public static Vector3 MidPoint(Vector3 P1, Vector3 P2)
+    {
+        Vector3 auxVector = P1 + P2;
+        return new Vector3(auxVector.x / 2, auxVector.y / 2, auxVector.z / 2);
     }
 
     public static bool CheckColinear(LinkedList<Vector3> vertices)
@@ -82,5 +89,30 @@ public static class Math
         QuickSort<Vector3>.Sort(auxV, 0, auxV.count - 1, comparer);//Sorting the List
         return auxV[0];
     }
+
+    public static bool QTest(Vector3 P1 ,Vector3 P2, Vector3 P3, Vector3 Q)//Test if the point Q is inside the circumcircle of P1, P2, P3
+    {
+        Vector3 midPoint1 = MidPoint(P1, P2);
+        float pSlope = -1 / ((P2.z - P1.z) / (P2.x - P1.x)); 
+
+        Vector3 midPoint2 = MidPoint(P2, P3);
+        float pSlope2 = -1 / ((P3.z - P2.z) / (P3.x - P2.x));
+
+        //formula y - midPoint.z = perpendicularSlope * (x - midPoint.x)
+
+        float x = (- pSlope2 * midPoint2.x + midPoint2.z + pSlope * midPoint1.x - midPoint1.z) / (pSlope - pSlope2);
+        float y = pSlope * (x - midPoint1.x) + midPoint1.z;
+
+        Vector3 center = new(x, 0, y);
+
+        float epsilon = 1e-4f; ;
+
+        float radius = (center - P1).sqrMagnitude;
+        float distance2 = (center - Q).sqrMagnitude;
+
+        if (distance2 < radius - epsilon) return false;
+        return true;
+    }
+
 
 }

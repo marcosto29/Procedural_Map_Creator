@@ -8,15 +8,18 @@ public class Node <T>
     T value;
     Node<T> child;
     Node<T> father;
+    readonly List<T> AdjancecyList;
 
     public Node(T v)
     {
         value = v;
+        AdjancecyList = new();
     }
 
     public Node()
     {
-        value = default(T);
+        value = default;
+        AdjancecyList = new();
     }
     
     public void SetFather(Node<T> n)
@@ -37,6 +40,11 @@ public class Node <T>
     public Node<T> GetSon()
     {
         return child;
+    }
+
+    public List<T> GetAdjancency()
+    {
+        return AdjancecyList;
     }
 
     public T GetValue()

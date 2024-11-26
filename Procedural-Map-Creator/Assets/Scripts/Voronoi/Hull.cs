@@ -5,9 +5,9 @@ using System;
 
 public class Hull
 {
-    public LinkedList<Tuple<Vector3, Vector3>> edges;
+    public List<Tuple<Vector3, Vector3>> edges;
     public LinkedList<Vector3> points;
-    public LinkedList<Vector3> edgePoints;
+    public LinkedList<Vector3> edgePoints; //This list will make it easier to create the convex hull 
 
     public Hull()
     {
@@ -42,8 +42,8 @@ public class Hull
         for (int i = 0; i < points.count; i++)//join left to right
         {
             edgePoints.Add(points[i]);
-            Debug.DrawLine(points[i], points[(i + 1) % points.count], Color.blue, 99999999.9f);//Debugging purpouse to see the proccess
             edges.Add(new Tuple<Vector3, Vector3>(points[i], points[(i + 1) % points.count]));
+            //Debug.DrawLine(points[i], points[(i + 1) % points.count], Color.blue, 99999999.9f);//Debugging purpouse to see the proccess
         }
     }
     public Vector3 FollowingPoint(Vector3 V, Vector3 V2, string sequence)
@@ -68,5 +68,20 @@ public class Hull
         QuickSort<Tuple<Vector3, bool, float>>.Sort(auxVectors, 0, auxVectors.count - 1, (a, b) => new ComparerV().Compare(a.Item3, b.Item3) < 0);//sort the points to know which one is the closest to the one being cheked 
 
         return auxVectors[0].Item1;
+    }
+
+    public void InsertEdge(Tuple<Vector3, Vector3> A)
+    {
+        edges.Add(A);
+        points.Get(A.Item1).GetAdjancency().Add(A.Item2);
+        points.Get(A.Item2).GetAdjancency().Add(A.Item1);
+    }
+
+    public void DeleteEdge(Tuple<Vector3, Vector3> B)
+    {
+        edges.Remove(B);
+        edges.Remove(new Tuple<Vector3, Vector3>(B.Item2, B.Item1));
+        points.Get(B.Item1).GetAdjancency().Remove(B.Item2);
+        points.Get(B.Item2).GetAdjancency().Remove(B.Item1);
     }
 }
