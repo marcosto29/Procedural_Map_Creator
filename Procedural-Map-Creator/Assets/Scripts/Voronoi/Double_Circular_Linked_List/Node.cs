@@ -6,9 +6,7 @@ using System;
 public class Node <T>
 {
     T value;
-    Node<T> child;
-    Node<T> father;
-    readonly List<T> AdjancecyList;
+    readonly List<T> AdjacencyList;
 
     public Node(T v)
     {
@@ -24,22 +22,22 @@ public class Node <T>
     
     public void SetFather(Node<T> n)
     {
-        father = n;
+        AdjacencyList[0] = n 
     }
 
     public Node<T> GetFather()
     {
-        return father;
+        return AdjacencyList[0];
     }
 
     public void SetSon(Node<T> n)
     {
-        child = n;
+        AdjacencyList[AdjacencyList.count] = n;
     }
 
     public Node<T> GetSon()
     {
-        return child;
+        return AdjacencyList[AdjacencyList.count];
     }
 
     public List<T> GetAdjancency()
