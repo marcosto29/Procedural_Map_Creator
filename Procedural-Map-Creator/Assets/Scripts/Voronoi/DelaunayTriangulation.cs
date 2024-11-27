@@ -74,8 +74,8 @@ public class DelaunayTriangulation : MonoBehaviour
     Tuple<Vector3, Vector3> LowTangent(Hull mergingHull, Vector3 centerX, Vector3 centerY, Vector3 X, Vector3 Y)
     {
 
-        Vector3 Z2 = convexHull.FollowingPoint(centerX, convexHull.edgePoints.Get(X).GetSon().GetValue(), "Right"); //travesing through the boundary CW direction
-        Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetFather().GetValue(), "Left"); //travesing through the boundary CCW direction
+        Vector3 Z2 = convexHull.FollowingPoint(centerX, convexHull.edgePoints.Get(X).GetSon(), "Right"); //travesing through the boundary CW direction
+        Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetFather(), "Left"); //travesing through the boundary CCW direction
 
         while (Math.IsRight(X, Y, Z) || Math.IsRight(X, Y, Z2))
         {
@@ -98,8 +98,8 @@ public class DelaunayTriangulation : MonoBehaviour
     }
     Tuple<Vector3, Vector3> HighTangent(Hull mergingHull, Vector3 centerX, Vector3 centerY, Vector3 X, Vector3 Y)
     {
-        Vector3 Z2 = convexHull.FollowingPoint(centerX, convexHull.edgePoints.Get(X).GetFather().GetValue(), "Left"); //travesing through the boundary CCW direction
-        Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetSon().GetValue(), "Right"); //travesing through the boundary CW direction
+        Vector3 Z2 = convexHull.FollowingPoint(centerX, convexHull.edgePoints.Get(X).GetFather(), "Left"); //travesing through the boundary CCW direction
+        Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetSon(), "Right"); //travesing through the boundary CW direction
 
         while (Math.IsLeft(X, Y, Z) || Math.IsLeft(X, Y, Z2))
         {
