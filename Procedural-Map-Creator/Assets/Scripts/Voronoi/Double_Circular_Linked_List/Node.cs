@@ -6,43 +6,38 @@ using System;
 public class Node <T>
 {
     T value;
-    readonly List<T> AdjacencyList;
+    LinkedList<Node<T>> AdjacencyList;
 
     public Node(T v)
     {
         value = v;
-        AdjancecyList = new();
+        AdjacencyList = new();
     }
 
     public Node()
     {
         value = default;
-        AdjancecyList = new();
+        AdjacencyList = new();
     }
-    
+
     public void SetFather(Node<T> n)
     {
-        AdjacencyList[0] = n 
+        AdjacencyList.AddFirst(n);
     }
 
     public Node<T> GetFather()
     {
-        return AdjacencyList[0];
+        return AdjacencyList.First.Value;
     }
 
     public void SetSon(Node<T> n)
     {
-        AdjacencyList[AdjacencyList.count] = n;
+        AdjacencyList.AddLast(n);
     }
 
     public Node<T> GetSon()
     {
-        return AdjacencyList[AdjacencyList.count];
-    }
-
-    public List<T> GetAdjancency()
-    {
-        return AdjancecyList;
+        return AdjacencyList.Last.Value;
     }
 
     public T GetValue()
@@ -53,5 +48,10 @@ public class Node <T>
     public void SetValue(T v)
     {
         value = v;
+    }
+
+    public LinkedList<Node<T>> GetAdjacency()
+    {
+        return AdjacencyList;
     }
 }

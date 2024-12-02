@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class DelaunayTriangulation : MonoBehaviour
 {
     [SerializeField] Vector2 size;
     [SerializeField] int points;
-    [SerializeField] LinkedList<Vector3> vertices;
+    [SerializeField] List<Node<Vector3>> vertices;
     [SerializeField] Hull convexHull;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,7 @@ public class DelaunayTriangulation : MonoBehaviour
     void Delaunay()//initial method that calculate the mediatrix between N points given
     {
         //random vertices position
-        for (int i = 0; i < points; i++) vertices.Add(new Vector3(UnityEngine.Random.Range(0, size.x), 0, UnityEngine.Random.Range(0, size.y)));
+        for (int i = 0; i < points; i++) vertices.Add(new Node<Vector3>(new Vector3(UnityEngine.Random.Range(0, size.x), 0, UnityEngine.Random.Range(0, size.y))));
         //sort them on a lexicographically ascending order (comparing first the x-coordinates and if its the same value the y-coordinate) from lowest to highest
 
         //vertices[0] = new Vector3(.01f, 0, 2.23f);
@@ -29,15 +30,34 @@ public class DelaunayTriangulation : MonoBehaviour
         //vertices[3] = new Vector3(7.61f, 0, 1.45f);
         //vertices[4] = new Vector3(6.90f, 0, 5.56f);
 
-        vertices[0] = new Vector3(0.46f, 0, 5.99f);
-        vertices[1] = new Vector3(1.61f, 0, 8.99f);
-        vertices[2] = new Vector3(2.47f, 0, 3.75f);
-        vertices[3] = new Vector3(4.45f, 0, 4.56f);
-        vertices[4] = new Vector3(8.20f, 0, 2.78f);
+        //vertices[1] = new Node<Vector3>(new Vector3(0.46f, 0, 5.99f));
+        //vertices[0] = new Node<Vector3>(new Vector3(1.61f, 0, 8.99f));
+        //vertices[4] = new Node<Vector3>(new Vector3(2.47f, 0, 3.75f));
+        //vertices[3] = new Node<Vector3>(new Vector3(4.45f, 0, 4.56f));
+        //vertices[2] = new Node<Vector3>(new Vector3(8.20f, 0, 2.78f));
 
-        QuickSort<Vector3>.Sort(vertices, 0, vertices.count - 1, (a, b) => new ComparerV().CompareX(a, b) < 0);
+        //vertices[0] = new Node<Vector3>(new Vector3(2.6f, 0, 7f));
+        //vertices[1] = new Node<Vector3>(new Vector3(1.61f, 0, 0f));
+        //vertices[2] = new Node<Vector3>(new Vector3(4.8f, 0, 5.2f));
+        //vertices[3] = new Node<Vector3>(new Vector3(9.1f, 0, 7.3f));
+        //vertices[4] = new Node<Vector3>(new Vector3(9.15f, 0, 6.3f));
+        //vertices[5] = new Node<Vector3>(new Vector3(9.2f, 0, 7.9f));
+        //vertices[6] = new Node<Vector3>(new Vector3(9.2f, 0, 7.9f));
+
+        //vertices[0] = new Node<Vector3>(new Vector3(2.5f, 0, 0.2f));
+        //vertices[1] = new Node<Vector3>(new Vector3(2f, 0, 6.6f));
+        //vertices[2] = new Node<Vector3>(new Vector3(4.2f, 0, 4.8f));
+        //vertices[3] = new Node<Vector3>(new Vector3(5.7f, 0, 7.3f));
+        //vertices[4] = new Node<Vector3>(new Vector3(7.4f, 0, 0.8f));
+        //vertices[5] = new Node<Vector3>(new Vector3(9.1f, 0, 9.3f));
+        //vertices[6] = new Node<Vector3>(new Vector3(9.7f, 0, 9.1f));
+
+        QuickSort<Node<Vector3>>.Sort(vertices, 0, vertices.Count - 1, (a, b) => new ComparerV().CompareX(a.GetValue(), b.GetValue()) < 0);
         //Divide and conquer algorithm
-        Divide(0, vertices.count);
+        Divide(0, vertices.Count);
+
+        for (int i = 0; i < convexHull.edges.Count; i++) Debug.DrawLine(convexHull.edges[i].Item1.GetValue(), convexHull.edges[i].Item2.GetValue(), Color.blue, 9999999.9f);
+        for (int i = 0; i < convexHull.points.Count; i++) print(convexHull.points[i].GetValue());
     }
 
     void Divide(int start, int end)
@@ -50,108 +70,105 @@ public class DelaunayTriangulation : MonoBehaviour
         Hull merge = new (start, end, vertices);
 
         Conquer(merge);//algorithm to join with the hull immediately to the left (and make the triangulation)
-        Divide(end, vertices.count);//recursion to keep adding hulls step by step
+        Divide(end, vertices.Count);//recursion to keep adding hulls step by step
     }
     void Conquer(Hull mergingHull)
     {
-        if(convexHull.points.count <= 0) convexHull = mergingHull;
+        if(convexHull.points.Count <= 0) convexHull = mergingHull;
         else
         {
-            Vector3 X = Math.ChosenPoint(new LinkedList<Vector3>(convexHull.points), (a, b) => new ComparerV().CompareX(a, b) > 0);
-            Vector3 Y = Math.ChosenPoint(new LinkedList<Vector3>(mergingHull.points), (a, b) => new ComparerV().CompareX(a, b) < 0);
+            Node<Vector3> X = convexHull.points.Find(x => x.GetValue() == Math.ChosenPoint(convexHull.points.Select(x => x.GetValue()).ToList(), (a, b) => new ComparerV().CompareX(a, b) > 0));
+            Node<Vector3> Y = mergingHull.points.Find(y => y.GetValue() == Math.ChosenPoint(mergingHull.points.Select(y => y.GetValue()).ToList(), (a, b) => new ComparerV().CompareX(a, b) < 0));
 
-            Vector3 centerX = X;
-            Vector3 centerY = Y;
-
-            Tuple<Vector3, Vector3> lowTangent = LowTangent(mergingHull, centerX, centerY, X, Y);
-            Tuple<Vector3, Vector3> highTangent = HighTangent(mergingHull, centerX, centerY, X, Y);
+            Tuple<Node<Vector3>, Node<Vector3>> lowTangent = LowTangent(mergingHull, X, Y);
+            Tuple<Node<Vector3>, Node<Vector3>> highTangent = HighTangent(mergingHull, X, Y);
 
             JoinHulls(mergingHull, lowTangent, highTangent);
-
-            for(int i = 0; i < convexHull.edges.Count; i++) Debug.DrawLine(convexHull.edges[i].Item1, convexHull.edges[i].Item2, Color.blue, 9999999.9f);
         }
     }
-    Tuple<Vector3, Vector3> LowTangent(Hull mergingHull, Vector3 centerX, Vector3 centerY, Vector3 X, Vector3 Y)
+    Tuple<Node<Vector3>, Node<Vector3>> LowTangent(Hull mergingHull, Node<Vector3> X, Node<Vector3> Y)
     {
 
-        Vector3 Z2 = convexHull.FollowingPoint(centerX, convexHull.edgePoints.Get(X).GetSon(), "Right"); //travesing through the boundary CW direction
-        Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetFather(), "Left"); //travesing through the boundary CCW direction
+        Node<Vector3> Z2 = convexHull.FollowingPoint(X, convexHull.points.Find(x => x == X).GetSon(), "Right"); //travesing through the boundary CW direction
+        Node<Vector3> Z = mergingHull.FollowingPoint(Y, mergingHull.points.Find(y => y == Y).GetFather(), "Left"); //travesing through the boundary CCW direction
 
-        while (Math.IsRight(X, Y, Z) || Math.IsRight(X, Y, Z2))
+        while (Math.IsRight(X.GetValue(), Y.GetValue(), Z.GetValue()) || Math.IsRight(X.GetValue(), Y.GetValue(), Z2.GetValue()))
         {
-            if (Math.IsRight(X, Y, Z))
+            if (Math.IsRight(X.GetValue(), Y.GetValue(), Z.GetValue()))
             {
+                Node<Vector3> OldY = Y;
                 Y = Z;
-                Z = mergingHull.FollowingPoint(centerY, Y, "Left");
+                Z = mergingHull.FollowingPoint(Y, OldY, "Left");
             }
             else
             {
-                if (Math.IsRight(X, Y, Z2))
+                if (Math.IsRight(X.GetValue(), Y.GetValue(), Z2.GetValue()))
                 {
+                    Node<Vector3> OldX = X;
                     X = Z2;
-                    Z2 = convexHull.FollowingPoint(centerX, X, "Right");                  
+                    Z2 = convexHull.FollowingPoint(X, OldX, "Right");                  
                 }
             }
         }
-        //Debug.DrawLine(X, Y, Color.green, 9999999.9f);
-        return new Tuple<Vector3, Vector3>(X, Y);
+        //Debug.DrawLine(X.GetValue(), Y.GetValue(), Color.green, 9999999.9f);
+        return new Tuple<Node<Vector3>, Node<Vector3>>(X, Y);
     }
-    Tuple<Vector3, Vector3> HighTangent(Hull mergingHull, Vector3 centerX, Vector3 centerY, Vector3 X, Vector3 Y)
+    Tuple<Node<Vector3>, Node<Vector3>> HighTangent(Hull mergingHull, Node<Vector3> X, Node<Vector3> Y)
     {
-        Vector3 Z2 = convexHull.FollowingPoint(centerX, convexHull.edgePoints.Get(X).GetFather(), "Left"); //travesing through the boundary CCW direction
-        Vector3 Z = mergingHull.FollowingPoint(centerY, mergingHull.edgePoints.Get(Y).GetSon(), "Right"); //travesing through the boundary CW direction
+        Node<Vector3> Z2 = convexHull.FollowingPoint(X, convexHull.points.Find(x => x == X).GetFather(), "Left"); //travesing through the boundary CCW direction
+        Node<Vector3> Z = mergingHull.FollowingPoint(Y, mergingHull.points.Find(x => x == Y).GetSon(), "Right"); //travesing through the boundary CW direction
 
-        while (Math.IsLeft(X, Y, Z) || Math.IsLeft(X, Y, Z2))
+        while (Math.IsLeft(X.GetValue(), Y.GetValue(), Z.GetValue()) || Math.IsLeft(X.GetValue(), Y.GetValue(), Z2.GetValue()))
         {
-            if (Math.IsLeft(X, Y, Z))
+            if (Math.IsLeft(X.GetValue(), Y.GetValue(), Z.GetValue()))
             {
+                Node<Vector3> OldY = Y;
                 Y = Z;
-                Z = mergingHull.FollowingPoint(centerY, Y, "Right");
+                Z = mergingHull.FollowingPoint(Y, OldY, "Right");
             }
             else
             {
-                if (Math.IsLeft(X, Y, Z2))
+                if (Math.IsLeft(X.GetValue(), Y.GetValue(), Z2.GetValue()))
                 {
+                    Node<Vector3> OldX = X;
                     X = Z2;
-                    Z2 = convexHull.FollowingPoint(centerX, X, "Left");
+                    Z2 = convexHull.FollowingPoint(X, OldX, "Left");
                 }
             }
         }
-        //Debug.DrawLine(X, Y, Color.magenta, 9999999.9f);
-        return new Tuple<Vector3, Vector3>(X, Y);
+        //Debug.DrawLine(X.GetValue(), Y.GetValue(), Color.magenta, 9999999.9f);
+        return new Tuple<Node<Vector3>, Node<Vector3>>(X, Y);
     }
-    void JoinHulls(Hull mergingHull, Tuple<Vector3, Vector3> low, Tuple<Vector3, Vector3> high)//merge the hulls with with the delaunay condition
+    void JoinHulls(Hull mergingHull, Tuple<Node<Vector3>, Node<Vector3>> low, Tuple<Node<Vector3>, Node<Vector3>> high)//merge the hulls with with the delaunay condition
     {
-        for (int i = 0; i < mergingHull.points.count; i++) convexHull.points.Add(mergingHull.points[i]); //Add all points to the final Hull
-        for (int i = 0; i < mergingHull.edges.Count; i++) convexHull.edges.Add(mergingHull.edges[i]); //Add all points to the final Hull
+        convexHull.edges.AddRange(mergingHull.edges);//Add the edges to the Hull
 
-        Tuple<Vector3, Vector3> aux = low;
+        Node<Vector3> L = low.Item1;
+        Node<Vector3> R = low.Item2;
 
-        Vector3 L = aux.Item1;
-        Vector3 R = aux.Item2;
-        while (!aux.Equals(high))
+        while (!low.Equals(high))
         {
             bool A = false, B = false;
-            convexHull.InsertEdge(new Tuple<Vector3, Vector3>(L, R)); //Add a Delaunay Edge to the Hull
-            Vector3 R1 = mergingHull.FollowingPoint(R, L, "Right");
-            if (Math.IsLeft(L, R, R1)) //check on the right hull the next possible vertex
+            convexHull.InsertEdge(L, R); //Add a Delaunay Edge to the Hull
+            Node<Vector3> R1 = mergingHull.FollowingPoint(R, L, "Right");
+            if (Math.IsLeft(L.GetValue(), R.GetValue(), R1.GetValue())) //check on the right hull the next possible vertex
             {
-                Vector3 R2 = mergingHull.FollowingPoint(R, R1, "Right"); //take a Q point on the right side to check the circumcircle
-                while (!Math.QTest(R1, L, R, R2))//while the circumcircle rule is not accepted search new points
+                Node<Vector3> R2 = mergingHull.FollowingPoint(R, R1, "Right"); //take a Q point on the right side to check the circumcircle
+                while (!Math.QTest(R1.GetValue(), L.GetValue(), R.GetValue(), R2.GetValue()))//while the circumcircle rule is not accepted search new points
                 {
-                    convexHull.DeleteEdge(new Tuple<Vector3, Vector3>(R, R1));
+                    convexHull.DeleteEdge(R, R1);
                     R1 = R2;
                     R2 = mergingHull.FollowingPoint(R, R1, "Right");
                 }
             }
             else A = true;
-            Vector3 L1 = convexHull.FollowingPoint(L, R, "Left");
-            if (Math.IsRight(R, L, L1))
+            Node<Vector3> L1 = convexHull.FollowingPoint(L, R, "Left");
+            if (Math.IsRight(R.GetValue(), L.GetValue(), L1.GetValue()))
             {
-                Vector3 L2 = convexHull.FollowingPoint(L, L1, "Left");
-                while (!Math.QTest(L, R, L1, L2))
+                Node<Vector3> L2 = convexHull.FollowingPoint(L, L1, "Left");
+                while (!Math.QTest(L.GetValue(), R.GetValue(), L1.GetValue(), L2.GetValue()))
                 {
-                    convexHull.DeleteEdge(new Tuple<Vector3, Vector3>(L, L1));//remove this edge
+                    convexHull.DeleteEdge(L, L1);//remove this edge
                     L1 = L2;
                     L2 = convexHull.FollowingPoint(L, L1, "Left");
                 }
@@ -163,33 +180,13 @@ public class DelaunayTriangulation : MonoBehaviour
                 if (B) R = R1;
                 else
                 {
-                    if (Math.QTest(L, R, R1, L1)) R = R1;
+                    if (Math.QTest(L.GetValue(), R.GetValue(), R1.GetValue(), L1.GetValue())) R = R1;
                     else L = L1;
                 }
             }
-            aux = new Tuple<Vector3, Vector3>(L, R);
+            low = new Tuple<Node<Vector3>, Node<Vector3>>(L, R);
         }
-        convexHull.InsertEdge(new Tuple<Vector3, Vector3>(L, R)); //Insert the upper tangent
-
-
-        //join edges, edgePoints and points
-        Node<Vector3> low1 = convexHull.edgePoints.Get(low.Item1);
-        Node<Vector3> low2 = mergingHull.edgePoints.Get(low.Item2);
-        Node<Vector3> high1 = convexHull.edgePoints.Get(high.Item1);
-        Node<Vector3> high2 = mergingHull.edgePoints.Get(high.Item2);
-
-        low1.SetSon(low2);
-        low2.SetFather(low1);
-        high1.SetFather(high2);
-        high2.SetSon(high1);
-
-        convexHull.edgePoints.count = 1;
-        Node<Vector3> endPoint = low1.GetFather();
-
-        while (low1 != endPoint)
-        {
-            convexHull.edgePoints.count++;
-            low1 = low1.GetSon();
-        }
+        convexHull.InsertEdge(L, R); //Insert the upper tangent
+        convexHull.points.AddRange(mergingHull.points); //Add the points to the hull
     }
 }

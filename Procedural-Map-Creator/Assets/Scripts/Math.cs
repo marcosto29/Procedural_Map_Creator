@@ -49,10 +49,10 @@ public static class Math
         return new Vector3(auxVector.x / 2, auxVector.y / 2, auxVector.z / 2);
     }
 
-    public static bool CheckColinear(LinkedList<Vector3> vertices)
+    public static bool CheckColinear(List<Node<Vector3>> vertices)
     {
         //Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By) / 2 check if the area of the triangle is 0, doesnt need to divide by 2
-        if (vertices.count >= 3) return (vertices[0].x * (vertices[1].z - vertices[2].z) + vertices[1].x * (vertices[2].z - vertices[0].z) + vertices[2].x * (vertices[0].z - vertices[1].z)) == 0;
+        if (vertices.Count >= 3) return (vertices[0].GetValue().x * (vertices[1].GetValue().z - vertices[2].GetValue().z) + vertices[1].GetValue().x * (vertices[2].GetValue().z - vertices[0].GetValue().z) + vertices[2].GetValue().x * (vertices[0].GetValue().z - vertices[1].GetValue().z)) == 0;
         //when handling only 2 points catch the exception and send a true since a line will be created
         return true;
     }
@@ -84,9 +84,9 @@ public static class Math
         return (Orthogonal.y < 0);
     }
 
-    public static Vector3 ChosenPoint(LinkedList<Vector3> auxV, Func<Vector3, Vector3, bool> comparer)
+    public static Vector3 ChosenPoint(List<Vector3> auxV, Func<Vector3, Vector3, bool> comparer)
     {
-        QuickSort<Vector3>.Sort(auxV, 0, auxV.count - 1, comparer);//Sorting the List
+        QuickSort<Vector3>.Sort(auxV, 0, auxV.Count - 1, comparer);//Sorting the List
         return auxV[0];
     }
 
@@ -113,6 +113,4 @@ public static class Math
         if (distance2 < radius - epsilon) return false;
         return true;
     }
-
-
 }

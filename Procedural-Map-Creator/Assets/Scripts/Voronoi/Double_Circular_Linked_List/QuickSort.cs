@@ -5,7 +5,7 @@ using System;
 
 public static class QuickSort<T>//QuickSort algorithm
 {
-    public static void Sort(LinkedList<T> L, int beginning, int ending, Func<T, T, bool> compare)
+    public static void Sort(List<T> L, int beginning, int ending, Func<T, T, bool> compare)
     {
         if (ending <= beginning) return;
 
@@ -14,7 +14,7 @@ public static class QuickSort<T>//QuickSort algorithm
         Sort(L, pivot + 1, ending, compare);//right recursion
     }
 
-    static int Recursion(LinkedList<T> L, int beginning, int ending, Func<T, T, bool> compare)//Sorting part
+    static int Recursion(List<T> L, int beginning, int ending, Func<T, T, bool> compare)//Sorting part
     {
         int i = beginning - 1;
         int pivot = ending;
@@ -32,7 +32,7 @@ public static class QuickSort<T>//QuickSort algorithm
         SwapNodes(L, i, pivot);
         return i;
     }
-    static void SwapNodes(LinkedList<T> L, int a, int b)
+    static void SwapNodes(List<T> L, int a, int b)
     {
         T temp = L[a];
         L[a] = L[b];
