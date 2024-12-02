@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class Hull
 {
@@ -50,18 +51,19 @@ public class Hull
         if (points.Count == 2) return (points[0] == V) ? points[1] : points[0];//segment case
 
         //create an aux list that will contain each point with the distance to the segment and whether is on the right or left side
-        List<Tuple<Node<Vector3>, bool, float>> auxVectors = new();
-        for (int i = 0; i < points.Count; i++)
-        {
-            bool isRight = Math.IsRight(V.GetValue(), V2.GetValue(), points[i].GetValue());
-            float angle = Vector3.Angle(points[i].GetValue() - V.GetValue(), V2.GetValue() - V.GetValue());//calculate the angle and if the point is on the right or left side of the segmente
 
+        List<Tuple<Node<Vector3>, bool, float>> auxVectors = new();
+
+        foreach (Node<Vector3> i in V.GetAdjacency()) //cut the sample points to the locals
+        {
+            bool isRight = Math.IsRight(V.GetValue(), V2.GetValue(), i.GetValue());
+            float angle = Vector3.Angle(i.GetValue() - V.GetValue(), V2.GetValue() - V.GetValue());//calculate the angle and if the point is on the right or left side of the segmente
             if ((sequence == "Left" && isRight) || (sequence == "Right" && !isRight))// since Vector3.angle only gives a number between 0 and 180 the case where the angle is concave needs to be treated
             {
                 angle = 360 - angle;
             }
 
-            if (points[i] != V2 && points[i] != V) auxVectors.Add(new Tuple<Node<Vector3>, bool, float>(points[i], isRight, angle));//filter the point of the hull being checked
+            if (i != V2 && i != V) auxVectors.Add(new Tuple<Node<Vector3>, bool, float>(i, isRight, angle));//filter the point of the hull being checked
         }
         //sort them from closest to farthest
         QuickSort<Tuple<Node<Vector3>, bool, float>>.Sort(auxVectors, 0, auxVectors.Count - 1, (a, b) => new ComparerV().Compare(a.Item3, b.Item3) < 0);//sort the points to know which one is the closest to the one being cheked 
@@ -74,7 +76,7 @@ public class Hull
         AddAdjacency(N1, N2);
         AddAdjacency(N2, N1);
 
-        edges.Add(new Tuple<Node<Vector3>, Node<Vector3>>(N1, N2));
+        if (!edges.Contains(new Tuple<Node<Vector3>, Node<Vector3>>(N1, N2)) && !edges.Contains(new Tuple<Node<Vector3>, Node<Vector3>>(N2, N1))) edges.Add(new Tuple<Node<Vector3>, Node<Vector3>>(N1, N2));
     }
 
     public void DeleteEdge(Node<Vector3> N1, Node<Vector3> N2)

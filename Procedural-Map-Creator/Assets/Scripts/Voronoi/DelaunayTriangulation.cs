@@ -24,33 +24,16 @@ public class DelaunayTriangulation : MonoBehaviour
         for (int i = 0; i < points; i++) vertices.Add(new Node<Vector3>(new Vector3(UnityEngine.Random.Range(0, size.x), 0, UnityEngine.Random.Range(0, size.y))));
         //sort them on a lexicographically ascending order (comparing first the x-coordinates and if its the same value the y-coordinate) from lowest to highest
 
-        //vertices[0] = new Vector3(.01f, 0, 2.23f);
-        //vertices[1] = new Vector3(.71f, 0, 1.89f);
-        //vertices[2] = new Vector3(.91f, 0, 8.88f);
-        //vertices[3] = new Vector3(7.61f, 0, 1.45f);
-        //vertices[4] = new Vector3(6.90f, 0, 5.56f);
-
-        //vertices[1] = new Node<Vector3>(new Vector3(0.46f, 0, 5.99f));
-        //vertices[0] = new Node<Vector3>(new Vector3(1.61f, 0, 8.99f));
-        //vertices[4] = new Node<Vector3>(new Vector3(2.47f, 0, 3.75f));
-        //vertices[3] = new Node<Vector3>(new Vector3(4.45f, 0, 4.56f));
-        //vertices[2] = new Node<Vector3>(new Vector3(8.20f, 0, 2.78f));
-
-        //vertices[0] = new Node<Vector3>(new Vector3(2.6f, 0, 7f));
-        //vertices[1] = new Node<Vector3>(new Vector3(1.61f, 0, 0f));
-        //vertices[2] = new Node<Vector3>(new Vector3(4.8f, 0, 5.2f));
-        //vertices[3] = new Node<Vector3>(new Vector3(9.1f, 0, 7.3f));
-        //vertices[4] = new Node<Vector3>(new Vector3(9.15f, 0, 6.3f));
-        //vertices[5] = new Node<Vector3>(new Vector3(9.2f, 0, 7.9f));
-        //vertices[6] = new Node<Vector3>(new Vector3(9.2f, 0, 7.9f));
-
-        //vertices[0] = new Node<Vector3>(new Vector3(2.5f, 0, 0.2f));
-        //vertices[1] = new Node<Vector3>(new Vector3(2f, 0, 6.6f));
-        //vertices[2] = new Node<Vector3>(new Vector3(4.2f, 0, 4.8f));
-        //vertices[3] = new Node<Vector3>(new Vector3(5.7f, 0, 7.3f));
-        //vertices[4] = new Node<Vector3>(new Vector3(7.4f, 0, 0.8f));
-        //vertices[5] = new Node<Vector3>(new Vector3(9.1f, 0, 9.3f));
-        //vertices[6] = new Node<Vector3>(new Vector3(9.7f, 0, 9.1f));
+        //vertices[0] = new Node<Vector3>(new Vector3(6.20f, 0, 6.88f));
+        //vertices[1] = new Node<Vector3>(new Vector3(8.76f, 0, 6.52f));
+        //vertices[2] = new Node<Vector3>(new Vector3(5.99f, 0, 4.73f));
+        //vertices[3] = new Node<Vector3>(new Vector3(5.30f, 0, 9.11f));
+        //vertices[4] = new Node<Vector3>(new Vector3(5.84f, 0, 3.54f));
+        //vertices[5] = new Node<Vector3>(new Vector3(3.72f, 0, 4.41f));
+        //vertices[6] = new Node<Vector3>(new Vector3(3.51f, 0, 5.04f));
+        //vertices[7] = new Node<Vector3>(new Vector3(2.87f, 0, 8.02f));
+        //vertices[8] = new Node<Vector3>(new Vector3(2.39f, 0, 4.57f));
+        //vertices[9] = new Node<Vector3>(new Vector3(1.33f, 0, 6.32f));
 
         QuickSort<Node<Vector3>>.Sort(vertices, 0, vertices.Count - 1, (a, b) => new ComparerV().CompareX(a.GetValue(), b.GetValue()) < 0);
         //Divide and conquer algorithm
