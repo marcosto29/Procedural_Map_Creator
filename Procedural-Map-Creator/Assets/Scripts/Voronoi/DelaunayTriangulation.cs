@@ -23,18 +23,6 @@ public class DelaunayTriangulation : MonoBehaviour
         //random vertices position
         for (int i = 0; i < points; i++) vertices.Add(new Node<Vector3>(new Vector3(UnityEngine.Random.Range(0, size.x), 0, UnityEngine.Random.Range(0, size.y))));
         //sort them on a lexicographically ascending order (comparing first the x-coordinates and if its the same value the y-coordinate) from lowest to highest
-
-        //vertices[0] = new Node<Vector3>(new Vector3(6.20f, 0, 6.88f));
-        //vertices[1] = new Node<Vector3>(new Vector3(8.76f, 0, 6.52f));
-        //vertices[2] = new Node<Vector3>(new Vector3(5.99f, 0, 4.73f));
-        //vertices[3] = new Node<Vector3>(new Vector3(5.30f, 0, 9.11f));
-        //vertices[4] = new Node<Vector3>(new Vector3(5.84f, 0, 3.54f));
-        //vertices[5] = new Node<Vector3>(new Vector3(3.72f, 0, 4.41f));
-        //vertices[6] = new Node<Vector3>(new Vector3(3.51f, 0, 5.04f));
-        //vertices[7] = new Node<Vector3>(new Vector3(2.87f, 0, 8.02f));
-        //vertices[8] = new Node<Vector3>(new Vector3(2.39f, 0, 4.57f));
-        //vertices[9] = new Node<Vector3>(new Vector3(1.33f, 0, 6.32f));
-
         QuickSort<Node<Vector3>>.Sort(vertices, 0, vertices.Count - 1, (a, b) => new ComparerV().CompareX(a.GetValue(), b.GetValue()) < 0);
         //Divide and conquer algorithm
         Divide(0, vertices.Count);

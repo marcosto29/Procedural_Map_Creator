@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
 
 public class Hull
 {
@@ -51,10 +50,9 @@ public class Hull
         if (points.Count == 2) return (points[0] == V) ? points[1] : points[0];//segment case
 
         //create an aux list that will contain each point with the distance to the segment and whether is on the right or left side
-
         List<Tuple<Node<Vector3>, bool, float>> auxVectors = new();
 
-        foreach (Node<Vector3> i in V.GetAdjacency()) //cut the sample points to the locals
+        foreach (Node<Vector3> i in V.GetAdjacency()) //cut the sample points to the locals given the point V
         {
             bool isRight = Math.IsRight(V.GetValue(), V2.GetValue(), i.GetValue());
             float angle = Vector3.Angle(i.GetValue() - V.GetValue(), V2.GetValue() - V.GetValue());//calculate the angle and if the point is on the right or left side of the segmente
@@ -67,7 +65,6 @@ public class Hull
         }
         //sort them from closest to farthest
         QuickSort<Tuple<Node<Vector3>, bool, float>>.Sort(auxVectors, 0, auxVectors.Count - 1, (a, b) => new ComparerV().Compare(a.Item3, b.Item3) < 0);//sort the points to know which one is the closest to the one being cheked 
-
         return auxVectors[0].Item1;
     }
 
