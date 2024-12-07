@@ -101,14 +101,14 @@ public static class Math
         //formula y - midPoint.z = perpendicularSlope * (x - midPoint.x)
 
         float x = (- pSlope2 * midPoint2.x + midPoint2.z + pSlope * midPoint1.x - midPoint1.z) / (pSlope - pSlope2);
-        float y = pSlope * (x - midPoint1.x) + midPoint1.z;
+        float z = pSlope * (x - midPoint1.x) + midPoint1.z;
 
-        Vector3 center = new(x, 0, y);
+        Vector3 center = new(x, 0, z);
 
-        float epsilon = 1e-4f; ;
+        float epsilon = 1e-3f;
 
-        float radius = (center - P1).sqrMagnitude;
-        float distance2 = (center - Q).sqrMagnitude;
+        float radius = (center - P1).magnitude;
+        float distance2 = (center - Q).magnitude;
 
         if (distance2 < radius - epsilon) return false;
         return true;

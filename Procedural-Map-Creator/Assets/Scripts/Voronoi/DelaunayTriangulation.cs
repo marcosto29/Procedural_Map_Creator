@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using System.Diagnostics;
+using System.IO;
 
 public class DelaunayTriangulation : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class DelaunayTriangulation : MonoBehaviour
     [SerializeField] int points;
     [SerializeField] List<Node<Vector3>> vertices;
     [SerializeField] Hull convexHull;
+    private string filePath;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +27,31 @@ public class DelaunayTriangulation : MonoBehaviour
         for (int i = 0; i < points; i++) vertices.Add(new Node<Vector3>(new Vector3(UnityEngine.Random.Range(0, size.x), 0, UnityEngine.Random.Range(0, size.y))));
         //sort them on a lexicographically ascending order (comparing first the x-coordinates and if its the same value the y-coordinate) from lowest to highest
         QuickSort<Node<Vector3>>.Sort(vertices, 0, vertices.Count - 1, (a, b) => new ComparerV().CompareX(a.GetValue(), b.GetValue()) < 0);
+
+        for (int i = 0; i < vertices.Count; i++) System.Diagnostics.Debug.WriteLine(vertices[i].GetValue().x + " " + vertices[i].GetValue().z);
+        for (int i = 0; i < vertices.Count; i++) print(vertices[i].GetValue().x + " " + vertices[i].GetValue().z);
+
+        filePath = Path.Combine(Application.persistentDataPath, "SavedNumbers.txt");
+
+        // Save the numbers
+        SaveNumbers(vertices);
+
         //Divide and conquer algorithm
         Divide(0, vertices.Count);
 
-        for (int i = 0; i < convexHull.edges.Count; i++) Debug.DrawLine(convexHull.edges[i].Item1.GetValue(), convexHull.edges[i].Item2.GetValue(), Color.blue, 9999999.9f);
+        for (int i = 0; i < convexHull.edges.Count; i++) UnityEngine.Debug.DrawLine(convexHull.edges[i].Item1.GetValue(), convexHull.edges[i].Item2.GetValue(), Color.blue, 9999999.9f);
         for (int i = 0; i < convexHull.points.Count; i++) print(convexHull.points[i].GetValue());
+    }
+
+    void SaveNumbers(List<Node<Vector3>> numbers)
+    {
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            foreach (Node<Vector3> number in numbers)
+            {
+                writer.WriteLine(number.GetValue().ToString("F5")); // Save numbers with five decimal places
+            }
+        }
     }
 
     void Divide(int start, int end)

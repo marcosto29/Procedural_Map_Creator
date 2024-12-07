@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ComparerV : IComparer<float>
 {
-    public int CompareY(Vector3 X, Vector3 Y)
+    public int CompareZ(Vector3 X, Vector3 Y)
     {
-        // First compare x-coordinates
+        // First compare Z-coordinates
         if (X.z > Y.z) return 1;
         if (X.z < Y.z) return -1;
 
-        // If x-coordinates are the same, compare y-coordinates
+        // If z-coordinates are the same, compare y-coordinates
         if (X.x > Y.x) return 1;
         if (X.x < Y.x) return -1;
 
@@ -22,7 +22,7 @@ public class ComparerV : IComparer<float>
         if (X.x > Y.x) return 1;
         if (X.x < Y.x) return -1;
 
-        // If x-coordinates are the same, compare y-coordinates
+        // If x-coordinates are the same, compare z-coordinates
         if (X.z > Y.z) return 1;
         if (X.z < Y.z) return -1;
 
