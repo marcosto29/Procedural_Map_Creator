@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public static class Math
 {
@@ -92,6 +93,8 @@ public static class Math
 
     public static bool QTest(Vector3 P1 ,Vector3 P2, Vector3 P3, Vector3 Q)//Test if the point Q is inside the circumcircle of P1, P2, P3
     {
+        Vector3[] points = { P1, P2, P3 };
+
         Vector3 midPoint1 = MidPoint(P1, P2);
         float pSlope = -1 / ((P2.z - P1.z) / (P2.x - P1.x)); 
 
@@ -105,12 +108,10 @@ public static class Math
 
         Vector3 center = new(x, 0, z);
 
-        float epsilon = 1e-3f;
-
         float radius = (center - P1).magnitude;
         float distance2 = (center - Q).magnitude;
 
-        if (distance2 < radius - epsilon) return false;
-        return true;
+        if (distance2 > radius || points.Contains(Q)) return true;
+        return false;
     }
 }

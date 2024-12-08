@@ -83,8 +83,8 @@ public class DelaunayTriangulation : MonoBehaviour
     Tuple<Node<Vector3>, Node<Vector3>> LowTangent(Hull mergingHull, Node<Vector3> X, Node<Vector3> Y)
     {
 
-        Node<Vector3> Z2 = convexHull.FollowingPoint(X, convexHull.points.Find(x => x == X).GetSon(), "Right"); //travesing through the boundary CW direction
-        Node<Vector3> Z = mergingHull.FollowingPoint(Y, mergingHull.points.Find(y => y == Y).GetFather(), "Left"); //travesing through the boundary CCW direction
+        Node<Vector3> Z2 = FollowingPoint(X, convexHull.points.Find(x => x == X).GetSon(), "Right"); //travesing through the boundary CW direction
+        Node<Vector3> Z = FollowingPoint(Y, mergingHull.points.Find(y => y == Y).GetFather(), "Left"); //travesing through the boundary CCW direction
 
         while (Math.IsRight(X.GetValue(), Y.GetValue(), Z.GetValue()) || Math.IsRight(X.GetValue(), Y.GetValue(), Z2.GetValue()))
         {
@@ -92,7 +92,7 @@ public class DelaunayTriangulation : MonoBehaviour
             {
                 Node<Vector3> OldY = Y;
                 Y = Z;
-                Z = mergingHull.FollowingPoint(Y, OldY, "Left");
+                Z = FollowingPoint(Y, OldY, "Left");
             }
             else
             {
@@ -100,7 +100,7 @@ public class DelaunayTriangulation : MonoBehaviour
                 {
                     Node<Vector3> OldX = X;
                     X = Z2;
-                    Z2 = convexHull.FollowingPoint(X, OldX, "Right");                  
+                    Z2 = FollowingPoint(X, OldX, "Right");                  
                 }
             }
         }
@@ -109,8 +109,8 @@ public class DelaunayTriangulation : MonoBehaviour
     }
     Tuple<Node<Vector3>, Node<Vector3>> HighTangent(Hull mergingHull, Node<Vector3> X, Node<Vector3> Y)
     {
-        Node<Vector3> Z2 = convexHull.FollowingPoint(X, convexHull.points.Find(x => x == X).GetFather(), "Left"); //travesing through the boundary CCW direction
-        Node<Vector3> Z = mergingHull.FollowingPoint(Y, mergingHull.points.Find(x => x == Y).GetSon(), "Right"); //travesing through the boundary CW direction
+        Node<Vector3> Z2 = FollowingPoint(X, convexHull.points.Find(x => x == X).GetFather(), "Left"); //travesing through the boundary CCW direction
+        Node<Vector3> Z = FollowingPoint(Y, mergingHull.points.Find(x => x == Y).GetSon(), "Right"); //travesing through the boundary CW direction
 
         while (Math.IsLeft(X.GetValue(), Y.GetValue(), Z.GetValue()) || Math.IsLeft(X.GetValue(), Y.GetValue(), Z2.GetValue()))
         {
@@ -118,7 +118,7 @@ public class DelaunayTriangulation : MonoBehaviour
             {
                 Node<Vector3> OldY = Y;
                 Y = Z;
-                Z = mergingHull.FollowingPoint(Y, OldY, "Right");
+                Z = FollowingPoint(Y, OldY, "Right");
             }
             else
             {
@@ -126,7 +126,7 @@ public class DelaunayTriangulation : MonoBehaviour
                 {
                     Node<Vector3> OldX = X;
                     X = Z2;
-                    Z2 = convexHull.FollowingPoint(X, OldX, "Left");
+                    Z2 = FollowingPoint(X, OldX, "Left");
                 }
             }
         }
@@ -144,27 +144,27 @@ public class DelaunayTriangulation : MonoBehaviour
         {
             bool A = false, B = false;
             convexHull.InsertEdge(L, R); //Add a Delaunay Edge to the Hull
-            Node<Vector3> R1 = mergingHull.FollowingPoint(R, L, "Right");
+            Node<Vector3> R1 = FollowingPoint(R, L, "Right");
             if (Math.IsLeft(L.GetValue(), R.GetValue(), R1.GetValue())) //check on the right hull the next possible vertex
             {
-                Node<Vector3> R2 = mergingHull.FollowingPoint(R, R1, "Right"); //take a Q point on the right side to check the circumcircle
+                Node<Vector3> R2 = FollowingPoint(R, R1, "Right"); //take a Q point on the right side to check the circumcircle
                 while (!Math.QTest(R1.GetValue(), L.GetValue(), R.GetValue(), R2.GetValue()))//while the circumcircle rule is not accepted search new points
                 {
                     convexHull.DeleteEdge(R, R1);
                     R1 = R2;
-                    R2 = mergingHull.FollowingPoint(R, R1, "Right");
+                    R2 = FollowingPoint(R, R1, "Right");
                 }
             }
             else A = true;
-            Node<Vector3> L1 = convexHull.FollowingPoint(L, R, "Left");
+            Node<Vector3> L1 = FollowingPoint(L, R, "Left");
             if (Math.IsRight(R.GetValue(), L.GetValue(), L1.GetValue()))
             {
-                Node<Vector3> L2 = convexHull.FollowingPoint(L, L1, "Left");
+                Node<Vector3> L2 = FollowingPoint(L, L1, "Left");
                 while (!Math.QTest(L.GetValue(), R.GetValue(), L1.GetValue(), L2.GetValue()))
                 {
                     convexHull.DeleteEdge(L, L1);//remove this edge
                     L1 = L2;
-                    L2 = convexHull.FollowingPoint(L, L1, "Left");
+                    L2 = FollowingPoint(L, L1, "Left");
                 }
             }
             else B = true;
@@ -182,5 +182,32 @@ public class DelaunayTriangulation : MonoBehaviour
         }
         convexHull.InsertEdge(L, R); //Insert the upper tangent
         convexHull.points.AddRange(mergingHull.points); //Add the points to the hull
+    }
+
+    public Node<Vector3> FollowingPoint(Node<Vector3> V, Node<Vector3> V2, string sequence)
+    {
+        if (V.GetAdjacency().Count == 1) return V.GetAdjacency().First.Value;//segment case
+
+        //create an aux list that will contain each point with the distance to the segment and whether is on the right or left side
+        List<Tuple<Node<Vector3>, bool, float>> auxVectors = new();
+
+        foreach (Node<Vector3> i in V.GetAdjacency()) //cut the sample points to the locals given the point V
+        {
+            bool isRight = Math.IsRight(V.GetValue(), V2.GetValue(), i.GetValue());
+            float angle = Vector3.Angle(i.GetValue() - V.GetValue(), V2.GetValue() - V.GetValue());//calculate the angle and if the point is on the right or left side of the segmente
+            if ((sequence == "Left" && isRight) || (sequence == "Right" && !isRight))// since Vector3.angle only gives a number between 0 and 180 the case where the angle is concave needs to be treated
+            {
+                angle = 360 - angle;
+            }
+
+            if (i != V2 && i != V) auxVectors.Add(new Tuple<Node<Vector3>, bool, float>(i, isRight, angle));//filter the point of the hull being checked
+        }
+        //sort them from closest to farthest
+        QuickSort<Tuple<Node<Vector3>, bool, float>>.Sort(auxVectors, 0, auxVectors.Count - 1, (a, b) => new ComparerV().Compare(a.Item3, b.Item3) < 0);//sort the points to know which one is the closest to the one being cheked 
+        if (auxVectors.Count == 0)
+        {
+            print(V.GetValue() + "im not working");
+        }
+        return auxVectors[0].Item1;
     }
 }
