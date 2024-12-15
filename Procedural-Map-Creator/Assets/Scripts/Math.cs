@@ -114,4 +114,11 @@ public static class Math
         if (distance2 > radius || points.Contains(Q)) return true;
         return false;
     }
+
+
+    //Node Mathematics
+    public static bool TriangleComparer(Tuple<Node<Vector3>, Node<Vector3>> edge1, Tuple<Node<Vector3>, Node<Vector3>> edge2)
+    {
+        return (edge1.Item1 == edge2.Item1 && edge1.Item2 == edge2.Item2);
+    }
 }

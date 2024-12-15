@@ -26,6 +26,7 @@ public class DelaunayTriangulation : MonoBehaviour
         //random vertices position
         for (int i = 0; i < points; i++) vertices.Add(new Node<Vector3>(new Vector3(UnityEngine.Random.Range(0, size.x), 0, UnityEngine.Random.Range(0, size.y))));
         //sort them on a lexicographically ascending order (comparing first the x-coordinates and if its the same value the y-coordinate) from lowest to highest
+
         QuickSort<Node<Vector3>>.Sort(vertices, 0, vertices.Count - 1, (a, b) => new ComparerV().CompareX(a.GetValue(), b.GetValue()) < 0);
 
         for (int i = 0; i < vertices.Count; i++) System.Diagnostics.Debug.WriteLine(vertices[i].GetValue().x + " " + vertices[i].GetValue().z);
@@ -136,6 +137,7 @@ public class DelaunayTriangulation : MonoBehaviour
     void JoinHulls(Hull mergingHull, Tuple<Node<Vector3>, Node<Vector3>> low, Tuple<Node<Vector3>, Node<Vector3>> high)//merge the hulls with with the delaunay condition
     {
         convexHull.edges.AddRange(mergingHull.edges);//Add the edges to the Hull
+        convexHull.triangles.AddRange(mergingHull.triangles);//Add the triangles to the Hull
 
         Node<Vector3> L = low.Item1;
         Node<Vector3> R = low.Item2;
@@ -168,14 +170,26 @@ public class DelaunayTriangulation : MonoBehaviour
                 }
             }
             else B = true;
-            if (A) L = L1;
+            if (A) {
+                convexHull.triangles.Add(new (L, R, L1));
+                L = L1;
+            }
             else
             {
-                if (B) R = R1;
+                if (B) {
+                    convexHull.triangles.Add(new (L, R, R1));
+                    R = R1;
+                }
                 else
                 {
-                    if (Math.QTest(L.GetValue(), R.GetValue(), R1.GetValue(), L1.GetValue())) R = R1;
-                    else L = L1;
+                    if (Math.QTest(L.GetValue(), R.GetValue(), R1.GetValue(), L1.GetValue())) {
+                        convexHull.triangles.Add(new (L, R, R1));
+                        R = R1;
+                    }
+                    else {
+                        convexHull.triangles.Add(new (L, R, L1));
+                        L = L1;
+                    }
                 }
             }
             low = new Tuple<Node<Vector3>, Node<Vector3>>(L, R);
@@ -204,10 +218,6 @@ public class DelaunayTriangulation : MonoBehaviour
         }
         //sort them from closest to farthest
         QuickSort<Tuple<Node<Vector3>, bool, float>>.Sort(auxVectors, 0, auxVectors.Count - 1, (a, b) => new ComparerV().Compare(a.Item3, b.Item3) < 0);//sort the points to know which one is the closest to the one being cheked 
-        if (auxVectors.Count == 0)
-        {
-            print(V.GetValue() + "im not working");
-        }
         return auxVectors[0].Item1;
     }
 }

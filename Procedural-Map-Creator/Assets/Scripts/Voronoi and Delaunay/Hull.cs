@@ -7,6 +7,7 @@ public class Hull
 {
     public List<Tuple<Node<Vector3>, Node<Vector3>>> edges;
     public List<Node<Vector3>> points;
+    public List<Triangle> triangles;
 
     public Hull()
     {
@@ -17,6 +18,7 @@ public class Hull
     {
         edges = new();
         points = new();
+        triangles = new();
 
         for (int i = start; i < end; i++) points.Add(vertices[i]);
 
@@ -44,6 +46,7 @@ public class Hull
             InsertEdge(points[i], points[(i + 1) % points.Count]);
             //Debug.DrawLine(points[i].GetValue(), points[(i + 1) % points.Count].GetValue(), Color.blue, 99999999.9f);//Debugging purpouse to see the proccess
         }
+        if (points.Count >= 3) triangles.Add(new (points[0], points[1], points[2]));
     }
 
     public void InsertEdge(Node<Vector3> N1, Node<Vector3> N2)
@@ -56,11 +59,29 @@ public class Hull
 
     public void DeleteEdge(Node<Vector3> N1, Node<Vector3> N2)
     {
-        edges.Remove(new Tuple<Node<Vector3>, Node<Vector3>>(N1, N2));
-        edges.Remove(new Tuple<Node<Vector3>, Node<Vector3>>(N2, N1));
+        Tuple <Node<Vector3>, Node<Vector3>> edge = new (N1, N2);
+        Tuple <Node<Vector3>, Node<Vector3>> edge2 = new (N2, N1);
+        edges.Remove(edge);
+        edges.Remove(edge2);
 
         N1.GetAdjacency().Remove(N2);
         N2.GetAdjacency().Remove(N1);
+
+        Triangle T = new();
+        Triangle T2 = new();
+
+        while (true)
+        {
+            
+            T = triangles.Find(x => Array.Exists(x.edges, y => Math.TriangleComparer(y, edge)));
+            T2 = triangles.Find(x => Array.Exists(x.edges, y => Math.TriangleComparer(y, edge2)));
+
+            if (T == null && T2 == null)
+                break;
+
+            if (T != null) triangles.Remove(T);
+            if (T2 != null) triangles.Remove(T2);
+        }
     }
 
     void AddAdjacency(Node<Vector3> N1, Node<Vector3> N2)
