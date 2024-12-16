@@ -131,7 +131,7 @@ To check if the condition is met angles are the most important asset, starting w
   <img src="Procedural-Map-Creator/Assets/Photos/Angles.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
 </p>
 
-Once the points are taken the main loop after, checks whether they are the correct ones (checking if no other vertices are on the right or left side of the tangent created) or wheter new points are needed, if so the main loop repeats the same operation and checks the angles to select the new chosen vertex.
+Once the points are taken, they are checked to see wether they are the correct ones (no other vertices are on the right or left side of the tangent created) or wether new points are needed, if so the main loop repeats the same operation and checks the angles to select the new chosen vertex.
 
 When the condition is met on both hulls with a certain tangent that tangent is selected as the lower/upper one, and a new convex hull is created.
 
