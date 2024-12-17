@@ -191,4 +191,5 @@ WHILE(LOW is-different-of HIGH){
 	}
 	LOW <-- (L, R)
 }
+END DELAUNAY MERGE
 ```
