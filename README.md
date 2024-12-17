@@ -144,3 +144,51 @@ When the condition is met on both hulls with a certain tangent that tangent is s
 Once both hulls are merged, the next step is to join each vertex so that the Delaunay condition is met, to do this, the algorithm iterates on the new Hull created through the points.
 
 To calculate if a point meets the Delaunay condition a _QTest_ is made, this test requires 4 sample points, 3 of them (P1, P2, P3) are used to create a circle, the other one _Q_ is checked to see if its inside or outside that circle, the condition is met once a point is found outside the circle, until then the algorithm keeps ierating through the points following the _Right_ or _Left_ function depending on the side is being worked on.
+
+```
+LOW <-- low tangent
+HIGH <-- high tangent
+L <-- left point of LOW
+R <-- right point HIGH
+WHILE(LOW is-different-of HIGH){
+	A <-- B <-- FALSE
+	INSERTEDGE(L, R)
+	R1 <-- RIGHT(R, L)
+	if(R1 is-left-of (L, R)){
+		R2 <-- RIGHT(R, R1)
+		WHILE(QTEST(L, R, R1, R2) is NOT TRUE){
+			DELETEEDGE(R, R1)
+			R1 <-- R2
+			R2 <-- RIGHT(R, R1)
+		}
+	}
+	A <-- TRUE
+	L1 <-- LEFT(L, R)
+	IF(L1 is-right-of(R, L)){
+		L2 <-- LEFT(L, L1)
+		WHILE(QTEST(L, R, R1, L2) is NOT TRUE){
+			DELETEEDGE(L, L1)
+			L1 <-- L2
+			L2 <-- LEFT(L, L1)
+		}
+	}
+	B <-- TRUE
+	IF(A is TRUE) {
+		L <-- L1
+	}
+	ELSE{
+		IF(B is TRUE){
+			R <-- R1
+			ELSE{
+				IF(QTEST(L, R, R1, L1) is TRUE){
+					R <-- R1
+				}
+				ELSE{
+					L <-- L1
+				}
+			}
+		}
+	}
+	LOW <-- (L, R)
+}
+```
