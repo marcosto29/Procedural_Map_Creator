@@ -193,3 +193,6 @@ WHILE(LOW is-different-of HIGH){
 }
 END DELAUNAY MERGE
 ```
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/1000 points delaunay.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
+</p>
