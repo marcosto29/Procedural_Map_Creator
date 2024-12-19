@@ -149,7 +149,7 @@ To calculate if a point meets the Delaunay condition a _QTest_ is made, this tes
 LOW <-- low tangent
 HIGH <-- high tangent
 L <-- left point of LOW
-R <-- right point HIGH
+R <-- right point of LOW
 WHILE(LOW is-different-of HIGH){
 	A <-- B <-- FALSE
 	INSERTEDGE(L, R)
