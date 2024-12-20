@@ -6,47 +6,47 @@ using System;
 public class Hull
 {
     public List<Tuple<Node<Vector3>, Node<Vector3>>> edges;
-    public List<Node<Vector3>> points;
+    public List<Node<Vector3>> vertices;
     public List<Triangle> triangles;
 
     public Hull()
     {
         edges = new();
-        points = new();
+        vertices = new();
     }
-    public Hull(int start, int end, List<Node<Vector3>> vertices)
+    public Hull(int start, int end, List<Node<Vector3>> v)
     {
         edges = new();
-        points = new();
+        vertices = new();
         triangles = new();
 
-        for (int i = start; i < end; i++) points.Add(vertices[i]);
+        for (int i = start; i < end; i++) vertices.Add(v[i]);
 
         //check wether the vertices are colinear to instead of drawing a triangle just join them
-        if (!Math.CheckColinear(points))
+        if (!Math.CheckColinear(vertices))
         {
-            Vector3 aux1 = points[1].GetValue() - points[0].GetValue();
-            Vector3 aux2 = points[2].GetValue() - points[0].GetValue();
+            Vector3 aux1 = vertices[1].GetValue() - vertices[0].GetValue();
+            Vector3 aux2 = vertices[2].GetValue() - vertices[0].GetValue();
             float crossProductZ = aux1.x * aux2.z - aux1.z * aux2.x;
             if (crossProductZ <= 0)//if they are clockwise swap them
             {
-                Node<Vector3> temp = points[1];
-                int V2 = vertices.FindIndex(x => x == points[2]);
-                int V = vertices.FindIndex(x => x == points[1]);
+                Node<Vector3> temp = vertices[1];
+                int V2 = v.FindIndex(x => x == vertices[2]);
+                int V = v.FindIndex(x => x == vertices[1]);
 
-                vertices[V] = vertices[V2];
-                vertices[V2] = temp;
+                v[V] = v[V2];
+                v[V2] = temp;
                 
-                points[1] = points[2];//here too so that it can be later painted, this is for debugging purpose
-                points[2] = temp;
+                vertices[1] = vertices[2];//here too so that it can be later painted, this is for debugging purpose
+                vertices[2] = temp;
             }
         }
-        for (int i = 0; i < points.Count; i++)//join left to right
+        for (int i = 0; i < vertices.Count; i++)//join left to right
         {
-            InsertEdge(points[i], points[(i + 1) % points.Count]);
+            InsertEdge(vertices[i], vertices[(i + 1) % vertices.Count]);
             //Debug.DrawLine(points[i].GetValue(), points[(i + 1) % points.Count].GetValue(), Color.blue, 99999999.9f);//Debugging purpouse to see the proccess
         }
-        if (points.Count >= 3) triangles.Add(new (points[0], points[1], points[2]));
+        if (vertices.Count >= 3) triangles.Add(new(vertices[0], vertices[1], vertices[2]));
     }
 
     public void InsertEdge(Node<Vector3> N1, Node<Vector3> N2)

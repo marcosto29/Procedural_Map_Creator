@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PlaneGenerator
+public static class BasicPlane
 {
     public static List<Vector3> CreateVertices(Vector2 definition, Vector2 size)//this function gotta be remade to try and approch it with the voroni diagram/delaunay triangulation
     {
@@ -19,7 +19,7 @@ public static class PlaneGenerator
 
     public static List<int> CreateTriangles(Vector2 definition)
     {
-        List<int> trian = new List<int>();
+        List<int> trian = new();
 
         for(int i = 0; i < definition.y; i++)
         {

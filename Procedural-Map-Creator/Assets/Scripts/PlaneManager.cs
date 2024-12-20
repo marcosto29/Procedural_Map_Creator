@@ -22,7 +22,7 @@ public class PlaneManager : MonoBehaviour
     //private event Creator planeCreate;
 
     [SerializeField]
-    public Vector2 sizeProp//when changing the size redo the plane
+    public Vector2 SizeProp//when changing the size redo the plane
     {
         get { return size; }
         set
@@ -34,7 +34,7 @@ public class PlaneManager : MonoBehaviour
     }
 
     [SerializeField]
-    public Vector2 definitionProp//when changing the definition redo the plane
+    public Vector2 DefinitionProp//when changing the definition redo the plane
     {
         get { return definition; }
         set
@@ -72,8 +72,8 @@ public class PlaneManager : MonoBehaviour
 
             Vector2 intDef = new Vector2((int)definition.x, (int)definition.y);
 
-            vertices = PlaneGenerator.CreateVertices(intDef, size);//extra step for better visualitazion on inspector
-            triangles = PlaneGenerator.CreateTriangles(intDef);
+            vertices = BasicPlane.CreateVertices(intDef, size);//extra step for better visualitazion on inspector
+            triangles = BasicPlane.CreateTriangles(intDef);
 
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
@@ -97,8 +97,8 @@ public class PlaneManager : MonoBehaviour
     {
         if (isInitialized)
         {
-            definitionProp = definition;
-            sizeProp = size;
+            DefinitionProp = definition;
+            SizeProp = size;
         }
     }
 

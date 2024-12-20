@@ -36,25 +36,28 @@ public static class PerlinFunction
         timerCount += Time.deltaTime;
         float xoff = 0;
         float yoff = 10;
-        int count = 0;
+        //int count = 0;
 
-        for (int i = 0; i <= def.y; i++)
-        {
-            for (int j = 0; j <= def.x; j++)
-            {
-                float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude*2);
+        //for (int i = 0; i <= def.y; i++)
+        //{
+        //    for (int j = 0; j <= def.x; j++)
+        //    {
+        //        float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude*2);
 
-                values[count] = y;
-                xoff += jump;
-                count++;
-            }
-            xoff = 0;
-            yoff += jump;
-        }
+        //        values[count] = y;
+        //        xoff += jump;
+        //        count++;
+        //    }
+        //    xoff = 0;
+        //    yoff += jump;
+        //}
 
         for(int i = 0; i < vertices.Length; i++)
         {
-            vertices[i].y = values[i];
+            float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude * 2);
+            xoff += jump;
+
+            vertices[i].y = y;
         }
 
         plane.vertices = vertices;
