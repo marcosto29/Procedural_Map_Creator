@@ -196,3 +196,7 @@ END DELAUNAY MERGE
 <p align="center">
   <img src="Procedural-Map-Creator/Assets/Photos/1000 points delaunay.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
 </p>
+
+##Perlin Interpolation
+
+Now that the plane is finally created the next step is to assign the respective Perlin values to each point, since the order of the vertices makes it difficult to just assign those values directly to them is necessary to either change that order o calculate the interpolation manually
