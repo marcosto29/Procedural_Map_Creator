@@ -9,7 +9,6 @@ public class PlaneCreator : MonoBehaviour
     [SerializeField] private float amplitude;
     [SerializeField] private float frequency;
     [SerializeField] private float speed;
-    [SerializeField] private float jump;
 
     Mesh mesh;
     MeshCollider meshCollider;
@@ -35,7 +34,7 @@ public class PlaneCreator : MonoBehaviour
     }
     private void Update()
     {
-        PerlinFunction.DDraw(mesh, size, mesh.vertices, speed, amplitude, frequency, jump);
+        PerlinFunction.DDraw(mesh, size, mesh.vertices, speed, amplitude, frequency);
         mesh.RecalculateBounds();
     }
 }

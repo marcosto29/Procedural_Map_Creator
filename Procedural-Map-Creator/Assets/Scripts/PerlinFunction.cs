@@ -28,34 +28,15 @@ public static class PerlinFunction
         }
     }
 
-    public static void DDraw(Mesh plane, Vector2 def, Vector3[] vertices, float speed, float amplitude, float frequency, float jump)//2 and 3D
+    public static void DDraw(Mesh plane, Vector2 def, Vector3[] vertices, float speed, float amplitude, float frequency)//2 and 3D
     {
         vertices = plane.vertices;
-        float[] values = new float[vertices.Length];
 
         timerCount += Time.deltaTime;
-        float xoff = 0;
-        float yoff = 10;
-        //int count = 0;
-
-        //for (int i = 0; i <= def.y; i++)
-        //{
-        //    for (int j = 0; j <= def.x; j++)
-        //    {
-        //        float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude*2);
-
-        //        values[count] = y;
-        //        xoff += jump;
-        //        count++;
-        //    }
-        //    xoff = 0;
-        //    yoff += jump;
-        //}
 
         for(int i = 0; i < vertices.Length; i++)
         {
-            float y = Math.PerlinNoise(xoff, yoff, timerCount, speed, frequency, amplitude * 2);
-            xoff += jump;
+            float y = Math.PerlinNoise(vertices[i].x, vertices[i].z, timerCount, speed, frequency, amplitude);
 
             vertices[i].y = y;
         }

@@ -9,7 +9,6 @@ public class PlaneManager : MonoBehaviour
     [SerializeField] private float amplitude;
     [SerializeField] private float frequency;
     [SerializeField] private float speed;
-    [SerializeField] private float jump;
 
     //the values needed to determine the size of the plane and how many vertices and triangles it has
     bool isInitialized = false;//flag so that OnValidate doesnt act till everything is built, i dont really like this implemntation but i cant see right now an alternative
@@ -89,7 +88,7 @@ public class PlaneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PerlinFunction.DDraw(mesh, definition, vertices.ToArray(), speed, amplitude, frequency, jump);//dont even try to type anywhere meshFilter.mesh or everything fucking dies
+        PerlinFunction.DDraw(mesh, definition, vertices.ToArray(), speed, amplitude, frequency);//dont even try to type anywhere meshFilter.mesh or everything fucking dies
     }
 
     //this triggers when a value is changed on th inspector
