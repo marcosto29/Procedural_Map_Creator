@@ -199,4 +199,8 @@ END DELAUNAY MERGE
 
 ## Perlin Interpolation
 
-The expected final algorithm is gonna use each vertex created by the delaunay triangulation as a critical point on the layout, giving each vertex either high or low altitude, right now the Perlin Noise is gonna applied with global coordinates to show how the plane works
+The expected final algorithm is gonna use each vertex created by the delaunay triangulation as a critical point on the layout, giving each vertex either high or low altitude, right now the Perlin Noise is gonna applied with global coordinates to show how the plane works.
+
+<p align="center">
+  <img src="Procedural-Map-Creator/Assets/Photos/General Perlin Noise.PNG" alt="Plane Definition" width="45%" style="display:inline-block; margin-right: 10px;"/>
+</p>
